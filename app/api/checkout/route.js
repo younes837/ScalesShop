@@ -47,7 +47,6 @@ ${itemsList}
 *Total Details:*
 Subtotal: MAD${subtotal.toFixed(2)}
 Delivery: MAD${delivery.toFixed(2)}
-Tax: MAD${tax.toFixed(2)}
 ${discount > 0 ? `Discount: -MAD${discount.toFixed(2)}\n` : ""}
 *Total Amount: MAD${total.toFixed(2)}*`;
 }
