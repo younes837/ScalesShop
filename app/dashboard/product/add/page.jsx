@@ -68,9 +68,9 @@ export default function AddProductPage() {
               index === primaryImageIndex
             )
           );
+          await Promise.allSettled(imagePromises);
         }
 
-        await Promise.allSettled(imagePromises);
         return product;
       } catch (error) {
         console.error("Product creation failed:", error);
