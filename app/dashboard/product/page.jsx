@@ -11,6 +11,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -20,7 +26,7 @@ import {
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, Plus } from "lucide-react";
+import { ArrowUpDown, Edit, MoreHorizontal, Plus } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
@@ -140,22 +146,21 @@ export default function ProductsPage() {
       cell: ({ row }) => {
         const product = row.original;
         return (
-          <div className="space-x-2">
-            <Button
-              variant="secondary"
-              onClick={() =>
-                router.push(`/dashboard/product/${product.id}/edit`)
-              }
-            >
-              Edit
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => deleteMutation.mutate(product.id)}
-            >
-              Delete
-            </Button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-36">
+              <DropdownMenuItem
+                onClick={() => router.push(`/dashboard/product/${product.id}`)}
+              >
+                <Edit className="mr-2 h-4 w-4" />
+                Edit
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         );
       },
     },

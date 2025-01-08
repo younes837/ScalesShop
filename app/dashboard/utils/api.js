@@ -44,8 +44,15 @@ export const productApi = {
     return response.data;
   },
   getById: async (id) => {
-    const { data } = await api.get(`/products/${id}`);
-    return data;
+    try {
+      console.log("API call with ID:", id);
+      const { data } = await api.get(`/products/${id}`);
+      console.log("API response:", data);
+      return data;
+    } catch (error) {
+      console.error("Error in getById:", error);
+      throw error;
+    }
   },
   create: async (formData) => {
     try {
@@ -62,11 +69,32 @@ export const productApi = {
     }
   },
   update: async ({ id, ...product }) => {
-    const { data } = await api.put(`/products/${id}`, product);
+    const { data } = await api.patch(`/products/${id}`, product);
     return data;
   },
   delete: async (id) => {
     const { data } = await api.delete(`/products/${id}`);
+    return data;
+  },
+  updateImages: async ({ productId, existingImageIds, primaryImageId }) => {
+    const { data } = await api.patch(`/products/${productId}/images`, {
+      existingImageIds,
+      primaryImageId,
+    });
+    return data;
+  },
+  deleteImage: async (productId, imageId) => {
+    const { data } = await api.delete(
+      `/products/${productId}/images/${imageId}`
+    );
+    return data;
+  },
+  uploadImages: async (formData) => {
+    const { data } = await api.post("/products/images/upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return data;
   },
 };
@@ -84,9 +112,20 @@ export const categoryApi = {
     const { data } = await api.post("/categories", category);
     return data;
   },
-  update: async ({ id, ...category }) => {
-    const { data } = await api.put(`/categories/${id}`, category);
-    return data;
+  update: async (id, data) => {
+    const response = await fetch(`/api/categories/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update category");
+    }
+
+    return response.json();
   },
   delete: async (id) => {
     const { data } = await api.delete(`/categories/${id}`);

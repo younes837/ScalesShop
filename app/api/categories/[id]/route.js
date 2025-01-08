@@ -60,3 +60,23 @@ export async function PATCH(request, { params }) {
     );
   }
 }
+
+export async function PUT(request, { params }) {
+  try {
+    const { id } = params;
+    const body = await request.json();
+
+    // Update the category in your database
+    const updatedCategory = await prisma.category.update({
+      where: { id },
+      data: {
+        name: body.name,
+        description: body.description,
+      },
+    });
+
+    return Response.json(updatedCategory);
+  } catch (error) {
+    return Response.json({ error: error.message }, { status: 500 });
+  }
+}

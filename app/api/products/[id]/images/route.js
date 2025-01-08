@@ -1,49 +1,46 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { uploadProductImage } from "@/lib/uploadImage";
 
-export async function POST(request, { params }) {
+export async function PATCH(request, { params }) {
   try {
-    const { file, altText, isPrimary } = await request.json();
+    const { id } = await params;
+    const { existingImageIds, primaryImageId } = await request.json();
 
-    // If making this image primary, update other images
-    if (isPrimary) {
-      await prisma.productImage.updateMany({
+    // Update primary status for all images
+    await prisma.productImage.updateMany({
+      where: {
+        productId: id,
+      },
+      data: {
+        isPrimary: false,
+      },
+    });
+
+    // Set the new primary image
+    if (primaryImageId) {
+      await prisma.productImage.update({
         where: {
-          productId: params.id,
-          isPrimary: true,
+          id: primaryImageId,
         },
         data: {
-          isPrimary: false,
+          isPrimary: true,
         },
       });
     }
 
-    const image = await uploadProductImage(file, params.id, altText, isPrimary);
-    return NextResponse.json(image);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to upload image" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET(request, { params }) {
-  try {
-    const images = await prisma.productImage.findMany({
-      where: {
-        productId: params.id,
-      },
-      orderBy: {
-        displayOrder: "asc",
+    // Get the updated product with images
+    const product = await prisma.product.findUnique({
+      where: { id },
+      include: {
+        images: true,
       },
     });
 
-    return NextResponse.json(images);
+    return NextResponse.json(product);
   } catch (error) {
+    console.error("Error updating images:", error);
     return NextResponse.json(
-      { error: "Failed to fetch images" },
+      { error: "Failed to update images" },
       { status: 500 }
     );
   }

@@ -26,8 +26,14 @@ import {
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, Plus } from "lucide-react";
+import { ArrowUpDown, Plus, MoreHorizontal, Edit } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function CategoriesPage() {
   const queryClient = useQueryClient();
@@ -79,17 +85,19 @@ export default function CategoriesPage() {
       cell: ({ row }) => {
         const category = row.original;
         return (
-          <div className="space-x-2">
-            <Button variant="secondary" onClick={() => handleEdit(category)}>
-              Edit
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => deleteMutation.mutate(category.id)}
-            >
-              Delete
-            </Button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-36">
+              <DropdownMenuItem onClick={() => handleEdit(category)}>
+                <Edit className="mr-2 h-4 w-4" />
+                Edit
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         );
       },
     },
@@ -119,10 +127,11 @@ export default function CategoriesPage() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: categoryApi.update,
+    mutationFn: ({ id, ...data }) => categoryApi.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries(["categories"]);
       resetForm();
+      setOpen(false);
     },
   });
 
@@ -141,16 +150,23 @@ export default function CategoriesPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (editingCategory) {
-      updateMutation.mutate({ id: editingCategory.id, ...formData });
+      updateMutation.mutate({
+        id: editingCategory.id,
+        name: formData.name,
+        description: formData.description,
+      });
     } else {
       createMutation.mutate(formData);
+      setOpen(false);
     }
-    setOpen(false);
   };
 
   const handleEdit = (category) => {
     setEditingCategory(category);
-    setFormData(category);
+    setFormData({
+      name: category.name,
+      description: category.description,
+    });
     setOpen(true);
   };
 
