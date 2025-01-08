@@ -1,10 +1,20 @@
+import { ClerkProvider } from "@clerk/nextjs";
+import { Providers } from "@/components/providers/Providers";
 import "./globals.css";
-import { ClientLayout } from "@/components/ClientLayout";
+
+export const metadata = {
+  title: "Store",
+  description: "Your store description",
+};
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <ClientLayout>{children}</ClientLayout>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <Providers>{children}</Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

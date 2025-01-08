@@ -211,7 +211,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <>
+    <main>
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
@@ -452,6 +452,6 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }
