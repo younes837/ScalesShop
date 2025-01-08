@@ -5,6 +5,7 @@ import PricingShowcase from "@/components/landing/PricingShowcase";
 import TrustSection from "@/components/landing/TrustSection";
 import CtaSection from "@/components/landing/CtaSection";
 import { Navbar } from "@/components/layout/Navbar";
+import NewProducts from "@/components/landing/NewProducts";
 
 export default function Home() {
   return (
@@ -14,7 +15,8 @@ export default function Home() {
         <Hero />
         <Features />
         <PopularCategories />
-        <PricingShowcase />
+        <NewProducts />
+        {/* <PricingShowcase /> */}
         <TrustSection />
         <CtaSection />
       </main>

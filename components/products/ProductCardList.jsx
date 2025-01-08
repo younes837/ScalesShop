@@ -66,13 +66,24 @@ export function ProductCardList({ product }) {
         )}
       </div>
 
-      <div className="relative w-48 aspect-square rounded-md bg-gray-50 flex-shrink-0">
-        <Image
-          src="/kitchen_scale.png"
-          alt={product.name}
-          fill
-          className="object-contain p-2"
-        />
+      <div className="relative w-60 aspect-square rounded-md bg-gray-50 flex-shrink-0">
+        {product.images && product.images.length > 0 ? (
+          <Image
+            src={product.images[0].imageUrl}
+            alt={product.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300 rounded-sm"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <Image
+            src={"/placeholder.png"}
+            alt={product.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300 rounded-sm"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        )}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between mb-2">

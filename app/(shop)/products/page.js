@@ -6,6 +6,7 @@ import { SortSelect } from "@/components/products/SortSelect";
 import prisma from "@/lib/prisma";
 import { serializeProducts } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
+import Image from "next/image";
 
 export default async function ProductsPage({ searchParams }) {
   const {
@@ -16,7 +17,11 @@ export default async function ProductsPage({ searchParams }) {
     inStock,
     view = "grid",
     sort = "createdAt.desc",
+    page = 1,
   } = searchParams;
+
+  const ITEMS_PER_PAGE = 9;
+  const skip = (Number(page) - 1) * ITEMS_PER_PAGE;
 
   const [field, order] = sort.split(".");
   const orderBy = { [field]: order };
@@ -28,20 +33,15 @@ export default async function ProductsPage({ searchParams }) {
         { name: { contains: search, mode: "insensitive" } },
         { description: { contains: search, mode: "insensitive" } },
         { sku: { contains: search, mode: "insensitive" } },
-        { category: { name: { contains: search, mode: "insensitive" } } },
       ],
     }),
     ...(category && { categoryId: category }),
-    ...((minPrice || maxPrice) && {
-      basePrice: {
-        ...(minPrice && { gte: Number(minPrice) }),
-        ...(maxPrice && { lte: Number(maxPrice) }),
-      },
-    }),
+    ...(minPrice && { basePrice: { gte: parseFloat(minPrice) } }),
+    ...(maxPrice && { basePrice: { lte: parseFloat(maxPrice) } }),
     ...(inStock === "true" && { stockQuantity: { gt: 0 } }),
   };
 
-  const [products, categories] = await Promise.all([
+  const [products, categories, totalProducts] = await Promise.all([
     prisma.product.findMany({
       where,
       include: {
@@ -50,15 +50,19 @@ export default async function ProductsPage({ searchParams }) {
         priceTiers: true,
       },
       orderBy,
+      skip,
+      take: ITEMS_PER_PAGE,
     }),
     prisma.category.findMany(),
+    prisma.product.count({ where }),
   ]);
 
   const serializedProducts = serializeProducts(products);
-  console.log("Serialized products:", serializedProducts);
   const maxProductPrice = Math.max(
     ...serializedProducts.map((p) => p.basePrice)
   );
+
+  const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
 
   return (
     <>
@@ -89,7 +93,12 @@ export default async function ProductsPage({ searchParams }) {
                   <SortSelect />
                 </div>
               </div>
-              <ProductsGrid products={serializedProducts} initialView={view} />
+              <ProductsGrid
+                products={serializedProducts}
+                initialView={view}
+                currentPage={Number(page)}
+                totalPages={totalPages}
+              />
             </div>
           </div>
         </div>

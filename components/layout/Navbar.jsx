@@ -20,7 +20,7 @@ const navLinks = [
   { href: "#home", label: "Home" },
   { href: "#about", label: "About" },
   { href: "/products", label: "Products" },
-  { href: "#features", label: "Features" },
+  { href: "/checkout", label: "Checkout" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -99,13 +99,14 @@ export function Navbar() {
               </SheetHeader>
               <div className="flex flex-col space-y-4 mt-8">
                 {navLinks.map((link) => (
-                  <button
+                  <Link
+                    href={link.href}
                     key={link.href}
-                    onClick={() => scrollToSection(link.href)}
+                    // onClick={() => scrollToSection(link.href)}
                     className="text-sm font-medium transition-colors hover:text-primary text-left py-2"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 ))}
               </div>
             </SheetContent>

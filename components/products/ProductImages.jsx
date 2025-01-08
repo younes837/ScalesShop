@@ -14,10 +14,10 @@ export function ProductImages({ images }) {
       {/* Main Image */}
       <div className="aspect-square relative rounded-lg overflow-hidden bg-background mb-4">
         <Image
-          src={"/kitchen_scale.png"}
+          src={selectedImage?.imageUrl || "/placeholder.png"}
           alt={selectedImage?.altText || "Product image"}
           fill
-          className="object-contain"
+          className="object-contain rounded-md"
           priority
         />
         <div className="absolute top-4 left-4">
@@ -41,7 +41,7 @@ export function ProductImages({ images }) {
             )}
           >
             <Image
-              src={"/kitchen_scale.png"}
+              src={image.imageUrl || "/placeholder.png"}
               alt={image.altText || "Product thumbnail"}
               fill
               className="object-contain p-2"

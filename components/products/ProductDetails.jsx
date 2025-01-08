@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Heart, ShoppingCart, Star, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn, formatPrice } from "@/lib/utils";
+import { cn, formatPrice, serializeProduct } from "@/lib/utils";
 import { calculateTierPrice } from "@/lib/pricing";
 import { calculateSavingsPercentage } from "@/lib/pricing";
 import { addToCart } from "@/lib/cart";
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/accordion";
 import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
+import { PriceTierTable } from "./PriceTierTable";
 
 const PRESET_QUANTITIES = [5, 10, 20, 30, 50, 100];
 
@@ -184,98 +185,9 @@ export function ProductDetails({ product }) {
       <div className="text-xs text-muted-foreground">
         Minimum order: {product.minOrderQuantity} units
       </div>
+      
 
       {/* Additional Info */}
-      <div className="pt-2">
-        <Accordion type="single" collapsible>
-          <AccordionItem value="pricing">
-            <AccordionTrigger className="text-sm py-3">
-              Volume Pricing
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="rounded-lg border">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="px-3 py-2 text-left text-xs font-medium">
-                        Quantity
-                      </th>
-                      <th className="px-3 py-2 text-left text-xs font-medium">
-                        Price per Unit
-                      </th>
-                      <th className="px-3 py-2 text-left text-xs font-medium">
-                        Savings
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-xs">
-                    <tr className="border-b">
-                      <td className="px-3 py-2">
-                        1-{product.priceTiers[0].minQuantity - 1}
-                      </td>
-                      <td className="px-3 py-2">
-                        {formatPrice(product.basePrice)}
-                      </td>
-                      <td className="px-3 py-2">-</td>
-                    </tr>
-                    {product.priceTiers.map((tier, index) => (
-                      <tr
-                        key={tier.id}
-                        className={cn("border-b", {
-                          "border-b-0": index === product.priceTiers.length - 1,
-                        })}
-                      >
-                        <td className="px-3 py-2">
-                          {tier.minQuantity}
-                          {index === product.priceTiers.length - 1
-                            ? "+"
-                            : `-${
-                                product.priceTiers[index + 1].minQuantity - 1
-                              }`}
-                        </td>
-                        <td className="px-3 py-2">
-                          {formatPrice(tier.pricePerUnit)}
-                        </td>
-                        <td className="px-3 py-2 text-green-600">
-                          {calculateSavingsPercentage(
-                            product.basePrice,
-                            tier.pricePerUnit
-                          )}
-                          % off
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="shipping">
-            <AccordionTrigger className="text-sm py-3">
-              Shipping & Returns
-            </AccordionTrigger>
-            <AccordionContent className="text-xs">
-              <ul className="space-y-2 text-muted-foreground">
-                <li>Free standard shipping on all orders</li>
-                <li>30-day return policy</li>
-                <li>Estimated delivery: 3-5 business days</li>
-              </ul>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="specs">
-            <AccordionTrigger className="text-sm py-3">
-              Specifications
-            </AccordionTrigger>
-            <AccordionContent className="text-xs">
-              <div className="space-y-2 text-muted-foreground">
-                <p>SKU: {product.sku}</p>
-                <p>Category: {product.category.name}</p>
-                <p>{product.description}</p>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </div>
     </div>
   );
 }

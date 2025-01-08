@@ -2,23 +2,32 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { LayoutGrid, List } from "lucide-react";
+import { LayoutGrid, List, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "./ProductCard";
 import { ProductCardList } from "./ProductCardList";
 
-export function ProductsGrid({ products, initialView = "grid" }) {
+export function ProductsGrid({
+  products,
+  initialView = "grid",
+  currentPage,
+  totalPages,
+}) {
   const [view, setView] = useState(initialView);
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const handleViewChange = (newView) => {
     setView(newView);
-
-    // Update URL without full page refresh
     const params = new URLSearchParams(searchParams);
     params.set("view", newView);
     router.push(`?${params.toString()}`, { scroll: false });
+  };
+
+  const handlePageChange = (newPage) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`, { scroll: true });
   };
 
   return (
@@ -58,6 +67,42 @@ export function ProductsGrid({ products, initialView = "grid" }) {
           ))}
         </div>
       )}
+
+      {/* Pagination */}
+      <div className="mt-8 flex justify-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage <= 1}
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Previous
+        </Button>
+
+        <div className="flex items-center gap-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button
+              key={page}
+              variant={currentPage === page ? "secondary" : "outline"}
+              size="sm"
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </Button>
+          ))}
+        </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage >= totalPages}
+        >
+          Next
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+      </div>
     </>
   );
 }

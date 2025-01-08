@@ -1,83 +1,53 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
 
-export async function GET(request) {
+export async function POST(request) {
   try {
-    const orders = await prisma.order.findMany({
-      include: {
-        user: true,
-        orderItems: {
-          include: {
-            product: {
-              include: {
-                images: true,
-              },
-            },
-          },
-        },
-      },
-    });
+    const orderData = await request.json();
+    const message = formatWhatsAppMessage(orderData);
+    const whatsappUrl = `https://wa.me/${
+      process.env.BUSINESS_PHONE
+    }?text=${encodeURIComponent(message)}`;
 
-    return NextResponse.json(orders);
+    return NextResponse.json({ success: true, whatsappUrl });
   } catch (error) {
+    console.error("Order processing error:", error);
     return NextResponse.json(
-      { error: "Failed to fetch orders" },
+      { error: "Failed to process order" },
       { status: 500 }
     );
   }
 }
 
-export async function POST(request) {
-  try {
-    const data = await request.json();
+function formatWhatsAppMessage(orderData) {
+  const { cart, shippingInfo, subtotal, delivery, tax, discount, total } =
+    orderData;
 
-    // Start a transaction
-    const order = await prisma.$transaction(async (prisma) => {
-      // 1. Create the order
-      const order = await prisma.order.create({
-        data: {
-          userId: data.userId,
-          status: "PENDING",
-          totalAmount: data.totalAmount,
-          shippingAddress: data.shippingAddress,
-          orderItems: {
-            create: data.items.map((item) => ({
-              productId: item.productId,
-              quantity: item.quantity,
-              pricePerUnit: item.pricePerUnit,
-              subtotal: item.quantity * item.pricePerUnit,
-            })),
-          },
-        },
-        include: {
-          orderItems: {
-            include: {
-              product: true,
-            },
-          },
-        },
-      });
+  const itemsList = cart
+    .map(
+      (item) =>
+        `• ${item.name} (Size: ${item.size}) x${item.quantity} - $${(
+          item.price * item.quantity
+        ).toFixed(2)}`
+    )
+    .join("\n");
 
-      // 2. Update product stock quantities
-      for (const item of data.items) {
-        await prisma.product.update({
-          where: { id: item.productId },
-          data: {
-            stockQuantity: {
-              decrement: item.quantity,
-            },
-          },
-        });
-      }
-
-      return order;
-    });
-
-    return NextResponse.json(order);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to create order" },
-      { status: 500 }
-    );
+  return `🛍️ *New Order*\n
+*Customer Details:*
+Name: ${shippingInfo.firstName} ${shippingInfo.lastName}
+Email: ${shippingInfo.email}
+Phone: ${shippingInfo.phone}
+Address: ${shippingInfo.address}${
+    shippingInfo.apt ? `, ${shippingInfo.apt}` : ""
   }
+${shippingInfo.city}, ${shippingInfo.country} ${shippingInfo.postalCode}
+
+*Order Summary:*
+${itemsList}
+
+*Total Details:*
+Subtotal: $${subtotal.toFixed(2)}
+Delivery: $${delivery.toFixed(2)}
+Tax: $${tax.toFixed(2)}
+${discount > 0 ? `Discount: -$${discount.toFixed(2)}\n` : ""}
+*Total Amount: $${total.toFixed(2)}*`;
 }

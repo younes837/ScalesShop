@@ -23,7 +23,7 @@ export function CartItem({ item }) {
     <div className="flex gap-4">
       <div className="relative aspect-square h-16 w-16 min-w-fit overflow-hidden rounded">
         <Image
-          src={item.images?.[0]?.url || "/product-placeholder.png"}
+          src={item.images?.[0]?.imageUrl || "/product-placeholder.png"}
           alt={item.name}
           fill
           className="object-cover"

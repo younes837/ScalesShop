@@ -1,146 +1,107 @@
 "use client";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
+import { productApi } from "./utils/api";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  LineChart,
-  Line,
-  BarChart,
   Bar,
+  BarChart,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
-import { productApi, categoryApi, dashboardApi } from "./utils/api";
-import {
-  DollarSign,
-  Package,
-  Tags,
-  ShoppingCart,
-  TrendingUp,
-  Users,
-  CreditCard,
-  Activity,
-} from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
-
-// Theme colors
-const THEME = {
-  primary: "#0ea5e9", // sky-500
-  secondary: "#8b5cf6", // violet-500
-  success: "#22c55e", // green-500
-  warning: "#f59e0b", // amber-500
-  error: "#ef4444", // red-500
-  info: "#3b82f6", // blue-500
-};
-
-const CHART_COLORS = [
-  THEME.primary,
-  THEME.secondary,
-  THEME.success,
-  THEME.warning,
-  THEME.error,
-  THEME.info,
-];
+import { formatDistanceToNow } from "date-fns";
 
 export default function DashboardPage() {
-  const { data: stats, isLoading: statsLoading } = useQuery({
-    queryKey: ["dashboard-stats"],
-    queryFn: dashboardApi.getStats,
-  });
-
-  const { data: products } = useQuery({
+  const { data: products = [] } = useQuery({
     queryKey: ["products"],
-    queryFn: productApi.getAll,
+    queryFn: () => productApi.getAll(),
   });
 
-  const { data: categories } = useQuery({
-    queryKey: ["categories"],
-    queryFn: categoryApi.getAll,
-  });
+  // Calculate total inventory value
+  const totalInventoryValue = products.reduce(
+    (sum, product) => sum + product.basePrice * product.stockQuantity,
+    0
+  );
 
-  const { data: recentSales } = useQuery({
-    queryKey: ["recent-sales"],
-    queryFn: dashboardApi.getRecentSales,
-  });
+  // Calculate low stock items (less than 10 units)
+  const lowStockItems = products.filter(
+    (product) => product.stockQuantity < 10
+  ).length;
 
-  const { data: revenue } = useQuery({
-    queryKey: ["revenue"],
-    queryFn: dashboardApi.getRevenue,
-  });
-  if (statsLoading) {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <LoadingSpinner className="h-8 w-8 text-muted-foreground" />
-      </div>
-    );
-  }
+  // Calculate out of stock items
+  const outOfStockItems = products.filter(
+    (product) => product.stockQuantity === 0
+  ).length;
+
+  // Calculate total products
+  const totalProducts = products.length;
+
+  // Prepare data for charts
+  const stockLevels = products
+    .sort((a, b) => b.stockQuantity - a.stockQuantity)
+    .slice(0, 5)
+    .map((product) => ({
+      name: product.name,
+      value: product.stockQuantity,
+    }));
+
+  const recentProducts = products
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+    .slice(0, 5);
 
   return (
     <div className="p-6 space-y-6">
       {/* Stats Overview */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-l-4 border-l-sky-500">
+        <Card className="border-l-4 border-l-blue-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-sky-500" />
+            <h3 className="text-sm font-medium">Total Products</h3>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${stats?.totalRevenue}</div>
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
-              <TrendingUp className="h-3 w-3 text-green-500" />+
-              {stats?.revenueIncrease}% from last month
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-l-4 border-l-violet-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Products</CardTitle>
-            <Package className="h-4 w-4 text-violet-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{products?.length}</div>
+            <div className="text-2xl font-bold">{totalProducts}</div>
             <p className="text-xs text-muted-foreground">
-              {stats?.newProducts} new this month
+              Active products in inventory
             </p>
           </CardContent>
         </Card>
-
-        <Card className="border-l-4 border-l-amber-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Categories</CardTitle>
-            <Tags className="h-4 w-4 text-amber-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{categories?.length}</div>
-            <p className="text-xs text-muted-foreground">
-              {stats?.activeCategories} active categories
-            </p>
-          </CardContent>
-        </Card>
-
         <Card className="border-l-4 border-l-green-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Sales</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-green-500" />
+            <h3 className="text-sm font-medium">Inventory Value</h3>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.activeSales}</div>
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
-              <TrendingUp className="h-3 w-3 text-green-500" />+
-              {stats?.salesIncrease}% from last month
+            <div className="text-2xl font-bold">
+              ${totalInventoryValue.toFixed(2)}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Total value of current stock
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="border-l-4 border-l-yellow-500">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-sm font-medium">Low Stock Items</h3>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{lowStockItems}</div>
+            <p className="text-xs text-muted-foreground">
+              Products with less than 10 units
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="border-l-4 border-l-red-500">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-sm font-medium">Out of Stock</h3>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{outOfStockItems}</div>
+            <p className="text-xs text-muted-foreground">
+              Products with zero inventory
             </p>
           </CardContent>
         </Card>
@@ -150,135 +111,60 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="h-4 w-4 text-sky-500" />
-              Revenue Overview
-            </CardTitle>
+            <h3 className="text-lg font-medium">Stock Levels</h3>
           </CardHeader>
-          <CardContent className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={revenue}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--background))",
-                    border: "1px solid hsl(var(--border))",
-                  }}
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={stockLevels}>
+                <XAxis
+                  dataKey="name"
+                  stroke="#888888"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
                 />
-                <Line
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke={THEME.primary}
-                  strokeWidth={2}
+                <YAxis
+                  stroke="#888888"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
                 />
-              </LineChart>
+                <Tooltip />
+                <Bar dataKey="value" fill="#adfa1d" radius={[4, 4, 0, 0]} />
+              </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
-
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Tags className="h-4 w-4 text-violet-500" />
-              Category Distribution
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={categories}
-                  dataKey="productCount"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  label
-                >
-                  {categories?.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={CHART_COLORS[index % CHART_COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--background))",
-                    border: "1px solid hsl(var(--border))",
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+        {/* Add more charts as needed */}
       </div>
 
-      {/* Recent Sales */}
+      {/* Recent Products */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <CreditCard className="h-4 w-4 text-green-500" />
-            Recent Sales
-          </CardTitle>
-          <CardDescription>Latest transactions</CardDescription>
+          <h3 className="text-lg font-medium">Recent Products</h3>
+          <p className="text-sm text-muted-foreground">
+            Recently added products to your inventory
+          </p>
         </CardHeader>
         <CardContent>
           <div className="space-y-8">
-            {recentSales?.map((sale) => (
-              <div key={sale.id} className="flex items-center">
-                <div className="h-9 w-9 rounded-full border border-muted flex items-center justify-center">
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                </div>
+            {recentProducts.map((product) => (
+              <div key={product.id} className="flex items-center">
                 <div className="ml-4 space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    {sale.productName}
+                    {product.name}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {sale.customerEmail}
+                    Added{" "}
+                    {formatDistanceToNow(new Date(product.createdAt), {
+                      addSuffix: true,
+                    })}
                   </p>
                 </div>
-                <div className="ml-auto font-medium text-green-500">
-                  +${sale.amount}
-                </div>
+                <div className="ml-auto font-medium">${product.basePrice}</div>
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Sales by Category */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ShoppingCart className="h-4 w-4 text-amber-500" />
-            Sales by Category
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={categories}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "hsl(var(--background))",
-                  border: "1px solid hsl(var(--border))",
-                }}
-              />
-              <Bar dataKey="sales">
-                {categories?.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={CHART_COLORS[index % CHART_COLORS.length]}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
         </CardContent>
       </Card>
     </div>
