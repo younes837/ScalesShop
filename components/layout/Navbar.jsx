@@ -15,6 +15,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 const navLinks = [
   { href: "#home", label: "Home" },
@@ -79,6 +80,7 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-6">
+          {/* <LanguageSwitcher /> */}
           <WishlistPopover />
           <CartPopover />
 
