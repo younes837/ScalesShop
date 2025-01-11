@@ -29,27 +29,8 @@ export default async function ProductsPage({ searchParams }) {
     const [field, order] = sort.split(".");
     const orderBy = { [field]: order };
 
-    let priceFilter = {};
-    if (minPrice && maxPrice) {
-      priceFilter = {
-        basePrice: {
-          gte: parseFloat(minPrice),
-          lte: parseFloat(maxPrice),
-        },
-      };
-    } else if (minPrice) {
-      priceFilter = {
-        basePrice: { gte: parseFloat(minPrice) },
-      };
-    } else if (maxPrice) {
-      priceFilter = {
-        basePrice: { lte: parseFloat(maxPrice) },
-      };
-    }
-
     const where = {
       isActive: true,
-      ...priceFilter,
       ...(search && {
         OR: [
           { name: { contains: search, mode: "insensitive" } },
@@ -58,6 +39,8 @@ export default async function ProductsPage({ searchParams }) {
         ],
       }),
       ...(category && { categoryId: category }),
+      ...(minPrice && { basePrice: { gte: parseFloat(minPrice) } }),
+      ...(maxPrice && { basePrice: { lte: parseFloat(maxPrice) } }),
       ...(inStock === "true" && { stockQuantity: { gt: 0 } }),
     };
 
