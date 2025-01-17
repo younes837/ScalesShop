@@ -1,12 +1,30 @@
 "use client";
 
 import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function PopularCategories() {
   const [categories, setCategories] = useState([]);
+
+  const getIconForCategory = () => {
+    return (
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+        />
+      </svg>
+    );
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -23,49 +41,44 @@ function PopularCategories() {
   }, []);
 
   return (
-    <section className="relative py-20 bg-gradient-to-b from-white to-gray-50">
+    <section className="relative py-24 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-20">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Popular Categories
+            Explore Categories
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Browse our most popular product categories for your business needs
+          <div className="w-24 h-1 bg-blue-600 mx-auto mb-6 rounded-full"></div>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Browse our curated selection of product categories tailored for your
+            business needs
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category) => (
             <Link
               key={category.id}
-              href={`/catalog/${category.slug}`}
-              className="group relative block bg-white overflow-hidden rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+              href={`products?category=${category.id}`}
+              className="group relative block bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 overflow-hidden"
             >
-              <div className="relative h-48 sm:h-64">
-                <Image
-                  src={
-                    category.imageUrl || "/images/categories/placeholder.jpg"
-                  }
-                  alt={category.name}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                  {category.name}
-                </h3>
-                <p className="text-gray-600 line-clamp-2">
-                  {category.description}
-                </p>
-              </div>
-              <div className="absolute bottom-4 right-4 opacity-0 transform translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                <span className="inline-flex items-center text-blue-600 font-medium">
-                  Browse Category
+              {/* Decorative background circle */}
+              <div className="absolute -right-6 -top-6 w-24 h-24 bg-blue-50 rounded-full group-hover:bg-blue-100 transition-colors duration-300"></div>
+
+              <div className="relative flex items-center space-x-4">
+                <div className="flex-shrink-0 p-3 bg-white rounded-xl shadow-sm group-hover:shadow-md transition-all duration-300">
+                  {getIconForCategory()}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+                    {category.name}
+                  </h3>
+                  <p className="text-gray-600 line-clamp-2 text-sm">
+                    {category.description}
+                  </p>
+                </div>
+                <div className="flex-shrink-0 text-gray-400 group-hover:text-blue-600 transition-all duration-300 transform group-hover:translate-x-1">
                   <svg
-                    className="ml-2 w-5 h-5"
+                    className="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -77,20 +90,20 @@ function PopularCategories() {
                       d="M9 5l7 7-7 7"
                     />
                   </svg>
-                </span>
+                </div>
               </div>
             </Link>
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-16">
           <Link
             href="/products"
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
+            className="inline-flex items-center px-8 py-4 border-2 border-blue-600 text-base font-medium rounded-full text-blue-600 bg-transparent hover:bg-blue-600 hover:text-white transition-all duration-200 space-x-2"
           >
-            View All Categories
+            <span>View All Categories</span>
             <svg
-              className="ml-2 w-5 h-5"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

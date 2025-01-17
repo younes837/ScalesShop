@@ -135,8 +135,8 @@ export function ProductCardList({ product }) {
                 />
               </Button>
               <Button
-                className="flex-1"
-                size="sm"
+                className="flex-1 "
+                size="md"
                 onClick={(e) => {
                   e.preventDefault();
                   handleAddToCart(e);

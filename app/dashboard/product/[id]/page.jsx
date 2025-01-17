@@ -26,6 +26,7 @@ export default function ProductPage() {
   const [formData, setFormData] = useState(null);
   const [images, setImages] = useState([]);
   const [primaryImageIndex, setPrimaryImageIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   // Fetch categories first
   const { data: categories = [] } = useQuery({
@@ -174,10 +175,13 @@ export default function ProductPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await updateMutation.mutateAsync(formData); // Pass formData directly
+      setLoading(false);
     } catch (error) {
       console.error("Submit error:", error?.message || "Unknown error");
+      setLoading(false);
     }
   };
 
@@ -250,7 +254,7 @@ export default function ProductPage() {
     }
   };
 
-  if (isLoadingProduct || !formData || categories.length === 0) {
+  if (isLoadingProduct || !formData || categories.length === 0 || loading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
         <LoadingSpinner className="h-8 w-8 text-muted-foreground" />

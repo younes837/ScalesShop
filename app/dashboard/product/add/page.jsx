@@ -19,11 +19,13 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function AddProductPage() {
   const { isLoaded, isSignedIn, user } = useUser();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -89,6 +91,7 @@ export default function AddProductPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       // Create a new FormData instance
       const productFormData = new FormData();
@@ -132,7 +135,9 @@ export default function AddProductPage() {
       }
 
       await createMutation.mutateAsync(productFormData);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error creating product:", error);
       // Add error handling here
     }
@@ -185,6 +190,13 @@ export default function AddProductPage() {
     }));
     setImages((prev) => [...prev, ...newImages]);
   };
+  if (loading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <LoadingSpinner className="h-8 w-8 text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 ">

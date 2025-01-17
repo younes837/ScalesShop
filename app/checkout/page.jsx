@@ -63,9 +63,9 @@ export default function CheckoutPage() {
     0
   );
   const delivery = 0;
-  const tax = subtotal * 0.15;
+  // const tax = subtotal * 0.15;
   const [discount, setDiscount] = useState(0);
-  const total = subtotal + tax - discount;
+  const total = subtotal - discount;
 
   const validateForm = () => {
     const newErrors = {};
@@ -178,7 +178,7 @@ export default function CheckoutPage() {
         shippingInfo,
         subtotal,
         delivery,
-        tax,
+        // tax,
         discount,
         total,
       };
@@ -211,7 +211,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main>
+    <main className="bg-gray-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
@@ -397,7 +397,7 @@ export default function CheckoutPage() {
             </div>
 
             <div className="mt-6">
-              <div className="flex gap-2">
+              {/* <div className="flex gap-2">
                 <Input
                   type="text"
                   placeholder="Enter coupon code"
@@ -409,7 +409,7 @@ export default function CheckoutPage() {
                 >
                   Apply
                 </button>
-              </div>
+              </div> */}
 
               <div className="mt-6 space-y-3">
                 <div className="flex justify-between text-gray-600">
@@ -420,10 +420,10 @@ export default function CheckoutPage() {
                   <span>Delivery</span>
                   <span>${delivery.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-gray-600">
+                {/* <div className="flex justify-between text-gray-600">
                   <span>Tax</span>
                   <span>${tax.toFixed(2)}</span>
-                </div>
+                </div> */}
                 {discount > 0 && (
                   <div className="flex justify-between text-green-500">
                     <span>Discount</span>

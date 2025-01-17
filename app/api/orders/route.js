@@ -19,8 +19,7 @@ export async function POST(request) {
 }
 
 function formatWhatsAppMessage(orderData) {
-  const { cart, shippingInfo, subtotal, delivery, tax, discount, total } =
-    orderData;
+  const { cart, shippingInfo, subtotal, delivery, discount, total } = orderData;
 
   const itemsList = cart
     .map(
@@ -47,7 +46,6 @@ ${itemsList}
 *Total Details:*
 Subtotal: $${subtotal.toFixed(2)}
 Delivery: $${delivery.toFixed(2)}
-Tax: $${tax.toFixed(2)}
 ${discount > 0 ? `Discount: -$${discount.toFixed(2)}\n` : ""}
 *Total Amount: $${total.toFixed(2)}*`;
 }

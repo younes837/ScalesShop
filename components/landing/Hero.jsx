@@ -39,21 +39,21 @@ export default function Hero() {
               transition={{ delay: 0.6, duration: 0.8 }}
             >
               <Link
-                href="/register"
+                href="#"
                 className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
               >
                 Get Started
               </Link>
               <Link
-                href="/catalog"
+                href="/products"
                 className="px-8 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
               >
-                View Catalog
+                View Products
               </Link>
             </motion.div>
           </motion.div>
           <motion.div
-            className="relative h-[400px] lg:h-[500px]"
+            className="relative h-[400px] lg:h-[500px] "
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -62,7 +62,7 @@ export default function Hero() {
               src="/scale.png"
               alt="Wholesale Business"
               fill
-              className="object-cover rounded-lg"
+              className="object-cover rounded-lg "
               priority
             />
           </motion.div>

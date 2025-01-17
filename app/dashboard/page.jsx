@@ -20,6 +20,11 @@ export default function DashboardPage() {
     queryFn: () => productApi.getAll(),
   });
 
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => categoryApi.getAll(),
+  });
+
   // Calculate total inventory value
   const totalInventoryValue = products.reduce(
     (sum, product) => sum + product.basePrice * product.stockQuantity,
@@ -38,6 +43,7 @@ export default function DashboardPage() {
 
   // Calculate total products
   const totalProducts = products.length;
+  const totalCategories = categories.length;
 
   // Prepare data for charts
   const stockLevels = products
@@ -55,10 +61,22 @@ export default function DashboardPage() {
     )
     .slice(0, 5);
 
+  // Add this new data preparation for category chart
+  const categoryData = categories.map((category) => {
+    const productCount = products.filter(
+      (product) => product.categoryId === category.id
+    ).length;
+
+    return {
+      name: category.name,
+      count: productCount,
+    };
+  });
+
   return (
     <div className="p-6 space-y-6">
       {/* Stats Overview */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card className="border-l-4 border-l-blue-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <h3 className="text-sm font-medium">Total Products</h3>
@@ -72,6 +90,17 @@ export default function DashboardPage() {
         </Card>
         <Card className="border-l-4 border-l-green-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <h3 className="text-sm font-medium">Total Categories</h3>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalCategories}</div>
+            <p className="text-xs text-muted-foreground">
+              Active products in inventory
+            </p>
+          </CardContent>
+        </Card>
+        {/* <Card className="border-l-4 border-l-green-500">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <h3 className="text-sm font-medium">Inventory Value</h3>
           </CardHeader>
           <CardContent>
@@ -82,8 +111,8 @@ export default function DashboardPage() {
               Total value of current stock
             </p>
           </CardContent>
-        </Card>
-        <Card className="border-l-4 border-l-yellow-500">
+        </Card> */}
+        {/* <Card className="border-l-4 border-l-yellow-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <h3 className="text-sm font-medium">Low Stock Items</h3>
           </CardHeader>
@@ -93,7 +122,7 @@ export default function DashboardPage() {
               Products with less than 10 units
             </p>
           </CardContent>
-        </Card>
+        </Card> */}
         <Card className="border-l-4 border-l-red-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <h3 className="text-sm font-medium">Out of Stock</h3>
@@ -107,35 +136,28 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Charts */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
+      {/* Add this new Charts section before Recent Products */}
+      <div className="grid gap-4 md:grid-col">
+        <Card>
           <CardHeader>
-            <h3 className="text-lg font-medium">Stock Levels</h3>
+            <h3 className="text-lg font-medium">Products by Category</h3>
+            <p className="text-sm text-muted-foreground">
+              Distribution of products across categories
+            </p>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={stockLevels}>
-                <XAxis
-                  dataKey="name"
-                  stroke="#888888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis
-                  stroke="#888888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <Tooltip />
-                <Bar dataKey="value" fill="#adfa1d" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={categoryData}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#4f46e5" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
-        {/* Add more charts as needed */}
       </div>
 
       {/* Recent Products */}

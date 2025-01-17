@@ -5,7 +5,11 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, ShoppingCart } from "lucide-react";
+import { useCartStore } from "@/lib/store/cart";
+import { useWishlistStore } from "@/lib/store/wishlist";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 function NewProducts() {
   const [products, setProducts] = useState([]);
@@ -13,14 +17,51 @@ function NewProducts() {
     align: "start",
     loop: true,
     skipSnaps: false,
-    inViewThreshold: 0.7,
+    watchDrag: true,
+    containScroll: "keepSnaps",
   });
+
+  const { addItem } = useCartStore();
+  const {
+    addItem: addToWishlist,
+    removeItem: removeFromWishlist,
+    isInWishlist,
+  } = useWishlistStore();
+  const [isAdding, setIsAdding] = useState(false);
 
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
 
   const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
   const scrollNext = () => emblaApi && emblaApi.scrollNext();
+
+  const handleAddToCart = (product) => {
+    try {
+      const cartItem = {
+        id: product.id,
+        name: product.name,
+        basePrice: product.basePrice,
+        minOrderQuantity: product.minOrderQuantity || 1,
+        images: product.images || [],
+        priceTiers: Array.isArray(product.priceTiers) ? product.priceTiers : [],
+      };
+
+      addItem(cartItem, product.minOrderQuantity);
+      toast.success("Added to cart");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const handleAddToWishlist = (product) => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+      toast.success("Removed from wishlist");
+    } else {
+      addToWishlist(product);
+      toast.success("Added to wishlist");
+    }
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -53,58 +94,92 @@ function NewProducts() {
   }, [emblaApi]);
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-24 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">
             Latest Products
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Check out our newest additions to the catalog
           </p>
         </div>
 
         <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex gap-6">
+            <div className="flex gap-8">
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className="flex-[0_0_280px] min-w-0 sm:flex-[0_0_320px] md:flex-[0_0_380px]"
+                  className="flex-[0_0_240px] min-w-0 sm:flex-[0_0_280px] md:flex-[0_0_320px]"
                 >
-                  <Link
-                    href={`/products/${product.id}`}
-                    className="group block bg-white overflow-hidden rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
-                  >
-                    <div className="relative h-48 sm:h-64">
-                      <Image
-                        src={
-                          product.images[0]?.imageUrl ||
-                          "/images/placeholder.jpg"
-                        }
-                        alt={product.name}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        sizes="(max-width: 768px) 280px, (max-width: 1200px) 320px, 380px"
-                      />
+                  <div className="group bg-white overflow-hidden rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div className="relative">
+                      <Link href={`/products/${product.id}`}>
+                        <div className="relative h-44 sm:h-52">
+                          <Image
+                            src={
+                              product.images[0]?.imageUrl ||
+                              "/images/placeholder.jpg"
+                            }
+                            alt={product.name}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            sizes="(max-width: 768px) 280px, (max-width: 1200px) 320px, 380px"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        </div>
+                      </Link>
+                      <button
+                        className="absolute top-3 right-3 p-1.5 rounded-full bg-white/90 backdrop-blur shadow-md hover:bg-white hover:scale-110 transition-all duration-300"
+                        aria-label="Add to favorites"
+                        onClick={() => handleAddToWishlist(product)}
+                      >
+                        <Heart
+                          className={cn(
+                            "w-4 h-4 transition-colors",
+                            isInWishlist(product.id)
+                              ? "text-red-500 fill-current"
+                              : "text-gray-600 hover:text-red-500"
+                          )}
+                        />
+                      </button>
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                        {product.name}
-                      </h3>
-                      <p className="text-gray-600 line-clamp-2 mb-4">
-                        {product.description}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-blue-600">
-                          ${product.basePrice}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                          New Arrival
-                        </span>
+
+                    <div className="p-4">
+                      <Link href={`/products/${product.id}`}>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-1.5 group-hover:text-blue-600 transition-colors">
+                          {product.name}
+                        </h3>
+                        <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+                          {product.description}
+                        </p>
+                      </Link>
+
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xl font-bold text-blue-600">
+                            ${product.basePrice}
+                          </span>
+                          <span className="px-3 py-1 text-sm font-medium text-blue-600 bg-blue-50 rounded-full">
+                            New Arrival
+                          </span>
+                        </div>
+
+                        <button
+                          className={cn(
+                            "w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center gap-2 font-medium transition-all duration-300",
+                            isAdding && "scale-95"
+                          )}
+                          onClick={() => handleAddToCart(product)}
+                          disabled={isAdding}
+                        >
+                          <ShoppingCart className="w-4 h-4" />
+                          {isAdding ? "Adding..." : "Add to Cart"}
+                        </button>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 </div>
               ))}
             </div>
@@ -112,26 +187,26 @@ function NewProducts() {
 
           <button
             onClick={scrollPrev}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center transition-all ${
+            className={`absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur shadow-lg flex items-center justify-center transition-all ${
               canScrollPrev
-                ? "opacity-100 hover:bg-gray-50"
+                ? "opacity-100 hover:bg-white hover:scale-110"
                 : "opacity-50 cursor-not-allowed"
             }`}
             disabled={!canScrollPrev}
           >
-            <ChevronLeft className="w-6 h-6 text-gray-600" />
+            <ChevronLeft className="w-6 h-6 text-gray-700" />
           </button>
 
           <button
             onClick={scrollNext}
-            className={`absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center transition-all ${
+            className={`absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur shadow-lg flex items-center justify-center transition-all ${
               canScrollNext
-                ? "opacity-100 hover:bg-gray-50"
+                ? "opacity-100 hover:bg-white hover:scale-110"
                 : "opacity-50 cursor-not-allowed"
             }`}
             disabled={!canScrollNext}
           >
-            <ChevronRight className="w-6 h-6 text-gray-600" />
+            <ChevronRight className="w-6 h-6 text-gray-700" />
           </button>
         </div>
       </div>
