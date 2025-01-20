@@ -8,6 +8,7 @@ import { formatOrderForWhatsApp, sendToWhatsApp } from "@/lib/utils/whatsapp";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 // Move InputField outside the main component
 const InputField = ({
@@ -39,6 +40,7 @@ const InputField = ({
 );
 
 export default function CheckoutPage() {
+  const t = useTranslations("Checkout");
   const cartStore = useCartStore();
   const cart = cartStore.items || [];
   const router = useRouter();
@@ -215,9 +217,9 @@ export default function CheckoutPage() {
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <span>Home</span>
+          <span>{t("breadcrumb.home")}</span>
           <span>›</span>
-          <span className="text-gray-900">Checkout</span>
+          <span className="text-gray-900">{t("breadcrumb.checkout")}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -225,15 +227,15 @@ export default function CheckoutPage() {
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
               <h2 className="text-2xl font-semibold mb-6">
-                Shipping Information
+                {t("shipping.title")}
               </h2>
 
               <div className="space-y-6">
                 <InputField
-                  label="Email"
+                  label={t("shipping.email")}
                   name="email"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t("shipping.email")}
                   required
                   value={shippingInfo.email}
                   onChange={handleInputChange}
@@ -242,18 +244,18 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <InputField
-                    label="First Name"
+                    label={t("shipping.firstName")}
                     name="firstName"
-                    placeholder="Enter first name"
+                    placeholder={t("shipping.firstName")}
                     required
                     value={shippingInfo.firstName}
                     onChange={handleInputChange}
                     error={errors.firstName}
                   />
                   <InputField
-                    label="Last Name"
+                    label={t("shipping.lastName")}
                     name="lastName"
-                    placeholder="Enter last name"
+                    placeholder={t("shipping.lastName")}
                     required
                     value={shippingInfo.lastName}
                     onChange={handleInputChange}
@@ -262,9 +264,9 @@ export default function CheckoutPage() {
                 </div>
 
                 <InputField
-                  label="Address"
+                  label={t("shipping.address")}
                   name="address"
-                  placeholder="Street address"
+                  placeholder={t("shipping.addressPlaceholder")}
                   required
                   value={shippingInfo.address}
                   onChange={handleInputChange}
@@ -272,9 +274,9 @@ export default function CheckoutPage() {
                 />
 
                 <InputField
-                  label="Apartment, suite, etc."
+                  label={t("shipping.apartment")}
                   name="apt"
-                  placeholder="Apartment, suite, or floor"
+                  placeholder={t("shipping.apartmentPlaceholder")}
                   value={shippingInfo.apt}
                   onChange={handleInputChange}
                   error={errors.apt}
@@ -282,9 +284,9 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-2 gap-6">
                   <InputField
-                    label="City"
+                    label={t("shipping.city")}
                     name="city"
-                    placeholder="Enter city"
+                    placeholder={t("shipping.city")}
                     required
                     value={shippingInfo.city}
                     onChange={handleInputChange}
@@ -295,7 +297,8 @@ export default function CheckoutPage() {
                       htmlFor="country"
                       className="text-sm font-medium text-gray-700"
                     >
-                      Country <span className="text-red-500">*</span>
+                      {t("shipping.country")}{" "}
+                      <span className="text-red-500">*</span>
                     </Label>
                     <select
                       id="country"
@@ -310,9 +313,9 @@ export default function CheckoutPage() {
                         }`}
                       required
                     >
-                      <option value="">Select country</option>
+                      <option value="">{t("shipping.selectCountry")}</option>
 
-                      <option value="UK">Morocco</option>
+                      <option value="UK">{t("shipping.morocco")}</option>
                     </select>
                     {errors.country && (
                       <p className="text-red-500 text-sm mt-1">
@@ -324,19 +327,19 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-2 gap-6">
                   <InputField
-                    label="Postal Code"
+                    label={t("shipping.postalCode")}
                     name="postalCode"
-                    placeholder="Enter postal code"
+                    placeholder={t("shipping.postalCode")}
                     required
                     value={shippingInfo.postalCode}
                     onChange={handleInputChange}
                     error={errors.postalCode}
                   />
                   <InputField
-                    label="Phone"
+                    label={t("shipping.phone")}
                     name="phone"
                     type="tel"
-                    placeholder="+212 6XX-XXXXXX"
+                    placeholder={t("shipping.phonePlaceholder")}
                     required
                     value={shippingInfo.phone}
                     onChange={handleInputChange}
@@ -358,7 +361,7 @@ export default function CheckoutPage() {
 
           {/* Right Column - Order Summary */}
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-semibold mb-6">Your Order</h2>
+            <h2 className="text-2xl font-semibold mb-6">{t("order.title")}</h2>
 
             <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
               {cart.map((item) => (
@@ -378,7 +381,9 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-medium line-clamp-1">{item.name}</h3>
-                    <p className="text-sm text-gray-500">Size: {item.size}</p>
+                    <p className="text-sm text-gray-500">
+                      {t("order.size")} {item.size}
+                    </p>
                     <div className="flex justify-between mt-2">
                       <span className="font-medium">
                         ${item.price.toFixed(2)}
@@ -413,11 +418,11 @@ export default function CheckoutPage() {
 
               <div className="mt-6 space-y-3">
                 <div className="flex justify-between text-gray-600">
-                  <span>Subtotal</span>
+                  <span>{t("order.subtotal")}</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Delivery</span>
+                  <span>{t("order.delivery")}</span>
                   <span>${delivery.toFixed(2)}</span>
                 </div>
                 {/* <div className="flex justify-between text-gray-600">
@@ -426,12 +431,12 @@ export default function CheckoutPage() {
                 </div> */}
                 {discount > 0 && (
                   <div className="flex justify-between text-green-500">
-                    <span>Discount</span>
+                    <span>{t("order.discount")}</span>
                     <span>-${discount.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between font-semibold text-lg pt-3 border-t">
-                  <span>Total</span>
+                  <span>{t("order.total")}</span>
                   <span>${total.toFixed(2)}</span>
                 </div>
               </div>
@@ -446,7 +451,7 @@ export default function CheckoutPage() {
                       : "bg-blue-600 hover:bg-blue-700 text-white"
                   }`}
               >
-                {isSubmitting ? "Processing..." : "Checkout"}
+                {isSubmitting ? t("order.processing") : t("order.checkout")}
               </button>
             </div>
           </div>

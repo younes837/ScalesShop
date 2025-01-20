@@ -1,10 +1,11 @@
 "use client";
-
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function Hero() {
+  const t = useTranslations("LandingPage");
   return (
     <section className="relative bg-gradient-to-b from-blue-50/50 to-white/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-16">
@@ -20,8 +21,8 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              Wholesale Prices, <br />
-              <span className="text-blue-600">Simplified Ordering</span>
+              {t("hero.title")} <br />
+              <span className="text-blue-600">{t("hero.titleHighlight")}</span>
             </motion.h1>
             <motion.p
               className="text-xl text-gray-600 mb-8"
@@ -29,8 +30,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              Access bulk pricing, streamlined ordering, and dedicated business
-              support - all in one platform.
+              {t("hero.description")}
             </motion.p>
             <motion.div
               className="flex flex-wrap gap-4"
@@ -42,13 +42,13 @@ export default function Hero() {
                 href="#"
                 className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
               >
-                Get Started
+                {t("button")}
               </Link>
               <Link
                 href="/products"
                 className="px-8 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
               >
-                View Products
+                {t("hero.viewProducts")}
               </Link>
             </motion.div>
           </motion.div>

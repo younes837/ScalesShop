@@ -1,17 +1,27 @@
-import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Providers } from "@/components/providers/Providers";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
-
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 export const metadata = {
-  title: "Wholesale Store",
-  description: "Your B2B wholesale platform",
+  title: "Store",
+  description: "Your store description",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <Providers>
+            <NextIntlClientProvider messages={messages}>
+              {children}
+            </NextIntlClientProvider>
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

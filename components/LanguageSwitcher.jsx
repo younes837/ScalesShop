@@ -1,48 +1,86 @@
-"use client";
-import { useTranslation } from "react-i18next";
-import Image from "next/image";
-import i18next from "@/i18n/i18n";
-
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Globe } from "lucide-react";
 export default function LanguageSwitcher() {
-  const { t } = useTranslation();
+  const [locale, setLocale] = useState("");
+  const router = useRouter();
+  useEffect(() => {
+    const cookieLocale = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("MYNEXTAPP_LOCALE="))
+      ?.split("=")[1];
 
-  const languages = [
-    {
-      code: "en",
-      name: "English",
-      flag: "/flags/en.png",
-    },
-    {
-      code: "fr",
-      name: "Français",
-      flag: "/flags/fr.png",
-    },
-  ];
+    if (cookieLocale) {
+      setLocale(cookieLocale);
+    } else {
+      const browserLocale = navigator.language.slice(0, 2);
+      setLocale(browserLocale);
+      document.cookie = `MYNEXTAPP_LOCALE=${browserLocale};`;
+      router.refresh();
+    }
+  }, [router]);
 
-  const changeLanguage = (lng) => {
-    i18next.changeLanguage(lng);
+  const handleLocaleChange = (locale) => {
+    setLocale(locale);
+
+    document.cookie = `MYNEXTAPP_LOCALE=${locale};`;
+    router.refresh();
   };
-
   return (
-    <div className="flex gap-2">
-      {languages.map((lang) => (
-        <button
-          key={lang.code}
-          onClick={() => changeLanguage(lang.code)}
-          className={`flex items-center gap-1 px-2 py-1 hover:bg-gray-100 rounded ${
-            i18next.language === lang.code ? "bg-gray-100" : ""
-          }`}
-        >
-          <Image
-            src={lang.flag}
-            alt={lang.name}
-            width={20}
-            height={20}
-            className="rounded-sm"
-          />
-          <span>{lang.name}</span>
-        </button>
-      ))}
+    <div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 px-3 h-[40px] rounded-full"
+          >
+            <Globe className="h-4 w-4" />
+
+            <span className="text-sm">{locale === "fr" ? "FR" : "EN"}</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-auto bg-white">
+          <DropdownMenuItem
+            className={`cursor-pointer ${
+              locale === "en" ? "bg-slate-100" : ""
+            }`}
+            onClick={() => handleLocaleChange("en")}
+          >
+            EN
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className={`cursor-pointer ${
+              locale === "fr" ? "bg-slate-100" : ""
+            }`}
+            onClick={() => handleLocaleChange("fr")}
+          >
+            FR
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {/* <Button
+        variant={locale === "fr" ? "default" : "outline"}
+        onClick={() => {
+          handleLocaleChange("fr");
+        }}
+      >
+        FR
+      </Button>
+      <Button
+        variant={locale === "en" ? "default" : "outline"}
+        onClick={() => {
+          handleLocaleChange("en");
+        }}
+      >
+        EN
+      </Button> */}
     </div>
   );
 }

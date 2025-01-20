@@ -14,8 +14,9 @@ import { formatPrice } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+import { useTranslations } from "next-intl";
 export function CartPopover() {
+  const t = useTranslations("ProductDetails");
   // Initialize with empty values to prevent hydration issues
   const [mounted, setMounted] = useState(false);
   const cartStore = useCartStore();
@@ -74,9 +75,9 @@ export function CartPopover() {
       >
         <div className="grid gap-4">
           <div className="flex items-center justify-between">
-            <h4 className="font-medium leading-none">Shopping Cart</h4>
+            <h4 className="font-medium leading-none">{t("addToCart.title")}</h4>
             <span className="text-sm text-muted-foreground">
-              {itemsCount} items
+              {itemsCount} {t("addToCart.items")}
             </span>
           </div>
           {items.length > 0 ? (
@@ -90,22 +91,24 @@ export function CartPopover() {
               </ScrollArea>
               <Separator />
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Total</span>
+                <span className="text-sm font-medium">
+                  {t("addToCart.total")}
+                </span>
                 <span className="text-sm font-medium">
                   {formatPrice(total)}
                 </span>
               </div>
               <Button asChild className="w-full">
-                <Link href="/checkout">Proceed to Checkout</Link>
+                <Link href="/checkout">{t("addToCart.proceedToCheckout")}</Link>
               </Button>
             </>
           ) : (
             <div className="flex flex-col items-center gap-2 py-4">
               <span className="text-sm text-muted-foreground">
-                Your cart is empty
+                {t("addToCart.empty")}
               </span>
               <Button asChild variant="link" className="text-sm">
-                <Link href="/products">Continue Shopping</Link>
+                <Link href="/products">{t("addToCart.continueShopping")}</Link>
               </Button>
             </div>
           )}

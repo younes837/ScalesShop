@@ -6,6 +6,7 @@ import { LayoutGrid, List, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "./ProductCard";
 import { ProductCardList } from "./ProductCardList";
+import { useTranslations } from "next-intl";
 
 export function ProductsGrid({
   products,
@@ -13,6 +14,7 @@ export function ProductsGrid({
   currentPage,
   totalPages,
 }) {
+  const t = useTranslations("Products");
   const [view, setView] = useState(initialView);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -34,7 +36,7 @@ export function ProductsGrid({
     <>
       <div className="flex justify-between items-center mb-6">
         <div className="text-sm text-muted-foreground">
-          {products.length} products found
+          {products.length} {t("filters.productsFound")}
         </div>
         <div className="flex gap-1">
           <Button
@@ -77,7 +79,7 @@ export function ProductsGrid({
           disabled={currentPage <= 1}
         >
           <ChevronLeft className="h-4 w-4" />
-          Previous
+          {t("pagination.prev")}
         </Button>
 
         <div className="flex items-center gap-2">
@@ -99,7 +101,7 @@ export function ProductsGrid({
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}
         >
-          Next
+          {t("pagination.next")}
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>

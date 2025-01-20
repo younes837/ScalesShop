@@ -3,8 +3,10 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 function PopularCategories() {
+  const t = useTranslations("LandingPage.categories");
   const [categories, setCategories] = useState([]);
 
   const getIconForCategory = () => {
@@ -45,12 +47,11 @@ function PopularCategories() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Explore Categories
+            {t("title")}
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6 rounded-full"></div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Browse our curated selection of product categories tailored for your
-            business needs
+            {t("subtitle")}
           </p>
         </div>
 
@@ -101,7 +102,7 @@ function PopularCategories() {
             href="/products"
             className="inline-flex items-center px-8 py-4 border-2 border-blue-600 text-base font-medium rounded-full text-blue-600 bg-transparent hover:bg-blue-600 hover:text-white transition-all duration-200 space-x-2"
           >
-            <span>View All Categories</span>
+            <span>{t("viewAll")}</span>
             <svg
               className="w-5 h-5"
               fill="none"

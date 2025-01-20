@@ -1,42 +1,23 @@
 import Image from "next/image";
 import { Shield, Award, BadgeCheck } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const certifications = [
   {
-    name: "ISO 9001",
-    description: "Quality Management System Certified",
+    key: "iso",
     icon: Shield,
   },
   {
-    name: "Industry Leader",
-    description: "Top Wholesale Platform 2024",
+    key: "leader",
     icon: Award,
   },
   {
-    name: "Verified Business",
-    description: "Trusted by 10,000+ Companies",
+    key: "verified",
     icon: BadgeCheck,
   },
 ];
 
-const testimonials = [
-  {
-    quote:
-      "Streamlined our entire procurement process. The bulk pricing and automated ordering have saved us countless hours.",
-    author: "Sarah Chen",
-    role: "Procurement Manager",
-    company: "TechCorp Solutions",
-    image: "/images/testimonials/sarah.jpg",
-  },
-  {
-    quote:
-      "The wholesale platform that actually understands business needs. Their customer service is exceptional.",
-    author: "Michael Rodriguez",
-    role: "Operations Director",
-    company: "Global Industries",
-    image: "/images/testimonials/michael.jpg",
-  },
-];
+const testimonials = ["first", "second"];
 
 const partners = [
   {
@@ -58,6 +39,8 @@ const partners = [
 ];
 
 export default function TrustSection() {
+  const t = useTranslations("LandingPage.trust");
+
   return (
     <section id="trust" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,15 +48,17 @@ export default function TrustSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
           {certifications.map((cert) => (
             <div
-              key={cert.name}
+              key={cert.key}
               className="flex items-center p-6 bg-gray-50 rounded-lg"
             >
               <cert.icon className="w-12 h-12 text-blue-600 mr-4" />
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  {cert.name}
+                  {t(`certifications.${cert.key}.title`)}
                 </h3>
-                <p className="text-gray-600">{cert.description}</p>
+                <p className="text-gray-600">
+                  {t(`certifications.${cert.key}.description`)}
+                </p>
               </div>
             </div>
           ))}
@@ -82,32 +67,30 @@ export default function TrustSection() {
         {/* Testimonials */}
         <div className="mb-20">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-            What Our Customers Say
+            {t("testimonials.title")}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial) => (
-              <div
-                key={testimonial.author}
-                className="bg-gray-50 p-8 rounded-lg"
-              >
+            {testimonials.map((key) => (
+              <div key={key} className="bg-gray-50 p-8 rounded-lg">
                 <p className="text-gray-600 mb-6 italic">
-                  "{testimonial.quote}"
+                  "{t(`testimonials.items.${key}.quote`)}"
                 </p>
                 <div className="flex items-center">
                   <div className="relative w-12 h-12 mr-4">
                     <Image
-                      src={testimonial.image}
-                      alt={testimonial.author}
+                      src="/placeholder.png"
+                      alt={t(`testimonials.items.${key}.author`)}
                       fill
                       className="rounded-full object-cover"
                     />
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900">
-                      {testimonial.author}
+                      {t(`testimonials.items.${key}.author`)}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {testimonial.role}, {testimonial.company}
+                      {t(`testimonials.items.${key}.role`)},{" "}
+                      {t(`testimonials.items.${key}.company`)}
                     </p>
                   </div>
                 </div>
@@ -119,7 +102,7 @@ export default function TrustSection() {
         {/* Partner Logos */}
         <div>
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-            Trusted by Industry Leaders
+            {t("partners.title")}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
             {partners.map((partner) => (
@@ -128,7 +111,7 @@ export default function TrustSection() {
                 className="relative h-16 grayscale hover:grayscale-0 transition-all"
               >
                 <Image
-                  src={partner.logo}
+                  src="/placeholder.png"
                   alt={partner.name}
                   fill
                   className="object-contain"

@@ -5,8 +5,9 @@ import { formatPrice } from "@/lib/utils";
 import { Minus, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-
+import { useTranslations } from "next-intl";
 export function CartItem({ item }) {
+  const t = useTranslations("ProductDetails");
   const { updateQuantity, removeItem } = useCartStore();
 
   const handleIncrement = () => {
@@ -35,15 +36,16 @@ export function CartItem({ item }) {
             <h4 className="font-medium leading-none">{item.name}</h4>
             <div className="text-sm text-muted-foreground space-y-0.5">
               <div>
-                {formatPrice(item.price)} per unit
+                {formatPrice(item.price)} {t("addToCart.perUnit")}
                 {item.price !== item.basePrice && (
                   <span className="ml-1 text-xs text-green-600">
-                    (Volume discount applied)
+                    {t("addToCart.volumeDiscount")}
                   </span>
                 )}
               </div>
               <div className="font-medium">
-                Total: {formatPrice(item.price * item.quantity)}
+                {t("addToCart.total")}:{" "}
+                {formatPrice(item.price * item.quantity)}
               </div>
             </div>
           </div>

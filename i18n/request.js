@@ -1,11 +1,11 @@
-export const defaultLocale = "en";
-export const locales = ["en", "fr"];
-
-export default function getRequestConfig() {
+import { getRequestConfig } from "next-intl/server";
+import { cookies } from "next/headers";
+export default getRequestConfig(async () => {
+  const cookiesLocale =
+    (await cookies()).get("MYNEXTAPP_LOCALE")?.value || "fr";
+  const locale = cookiesLocale;
   return {
-    messages: {
-      en: () => import("../messages/en.json"),
-      fr: () => import("../messages/fr.json"),
-    },
+    locale: locale,
+    messages: (await import(`../messages/${locale}.json`)).default,
   };
-}
+});

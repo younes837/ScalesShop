@@ -9,8 +9,9 @@ import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-
+import { useTranslations } from "next-intl";
 export function ProductCardList({ product }) {
+  const t = useTranslations("ProductDetails");
   const { addItem } = useCartStore();
   const {
     addItem: addToWishlist,
@@ -57,11 +58,11 @@ export function ProductCardList({ product }) {
       <div className="absolute top-4 left-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
         {product.stockQuantity > 0 ? (
           <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
-            In stock
+            {t("inStock")}
           </span>
         ) : (
           <span className="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">
-            Out of stock
+            {t("outOfStock")}
           </span>
         )}
       </div>
@@ -90,7 +91,7 @@ export function ProductCardList({ product }) {
           <div>
             <h3 className="font-medium text-lg mb-1">{product.name}</h3>
             <span className="text-xs text-muted-foreground">
-              SKU: {product.sku}
+              {t("sku")}: {product.sku}
             </span>
           </div>
           {/* <div className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
@@ -107,7 +108,10 @@ export function ProductCardList({ product }) {
             ))}
             <Star className="w-3.5 h-3.5 text-muted-foreground" />
           </div>
-          <span className="text-xs text-muted-foreground">669 reviews</span>
+          <span className="text-xs text-muted-foreground">
+            657
+            {t("reviews")}
+          </span>
         </div>
         <p className="text-sm text-muted-foreground line-clamp-1 mb-4">
           {product.description}
@@ -118,7 +122,7 @@ export function ProductCardList({ product }) {
               {formatPrice(product.basePrice)}
             </div>
             <div className="text-xs text-muted-foreground">
-              Min order: {product.minOrderQuantity} units
+              {t("addToCart.minOrder")}: {product.minOrderQuantity} units
             </div>
             <div className="flex gap-2 pt-2">
               <Button
@@ -144,7 +148,7 @@ export function ProductCardList({ product }) {
                 disabled={product.stockQuantity === 0}
               >
                 <ShoppingCart className="w-4 h-4 mr-1" />
-                Add to cart
+                {t("addToCart.button")}
               </Button>
             </div>
           </div>

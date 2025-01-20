@@ -1,0 +1,255 @@
+{
+    "LandingPage": {
+        "button": "Commencer",
+        "hero": {
+            "title": "Prix de gros,",
+            "titleHighlight": "Commande simplifiée",
+            "description": "Accédez aux prix de gros, à la commande simplifiée et au support commercial dédié - le tout sur une seule plateforme.",
+            "viewProducts": "Voir les produits"
+        },
+        "features": {
+            "title": "Pourquoi choisir notre plateforme",
+            "subtitle": "Tout ce dont vous avez besoin pour rationaliser vos achats en gros",
+            "items": {
+                "dynamicPricing": {
+                    "title": "Prix dynamiques",
+                    "description": "Remises sur volume automatiques et tarifs personnalisés pour vos besoins professionnels"
+                },
+                "businessAccounts": {
+                    "title": "Comptes professionnels",
+                    "description": "Gestion de compte dédiée et support spécialisé pour les clients B2B"
+                },
+                "bulkOrdering": {
+                    "title": "Commande en gros",
+                    "description": "Processus de commande simplifié pour les grandes quantités avec inventaire en temps réel"
+                },
+                "secureTransactions": {
+                    "title": "Transactions sécurisées",
+                    "description": "Sécurité de niveau entreprise pour toutes vos transactions commerciales"
+                }
+            }
+        },
+        "categories": {
+            "title": "Explorer les catégories",
+            "subtitle": "Parcourez notre sélection de catégories de produits adaptée à vos besoins professionnels",
+            "viewAll": "Voir toutes les catégories"
+        },
+        "newProducts": {
+            "title": "Derniers produits",
+            "subtitle": "Découvrez nos dernières nouveautés",
+            "newArrival": "Nouvelle arrivée",
+            "addToCart": "Ajouter au panier",
+            "adding": "Ajout en cours..."
+        },
+        "trust": {
+            "certifications": {
+                "iso": {
+                    "title": "ISO 9001",
+                    "description": "Système de gestion de la qualité certifié"
+                },
+                "leader": {
+                    "title": "Leader du secteur",
+                    "description": "Meilleure plateforme de gros 2024"
+                },
+                "verified": {
+                    "title": "Entreprise vérifiée",
+                    "description": "Fait confiance par plus de 10 000 entreprises"
+                }
+            },
+            "testimonials": {
+                "title": "Ce que disent nos clients",
+                "items": {
+                    "first": {
+                        "quote": "A rationalisé tout notre processus d'approvisionnement. Les prix en gros et la commande automatisée nous ont fait gagner d'innombrables heures.",
+                        "author": "Sarah Chen",
+                        "role": "Responsable des achats",
+                        "company": "TechCorp Solutions"
+                    },
+                    "second": {
+                        "quote": "La plateforme de gros qui comprend réellement les besoins des entreprises. Leur service client est exceptionnel.",
+                        "author": "Michael Rodriguez",
+                        "role": "Directeur des opérations",
+                        "company": "Global Industries"
+                    }
+                }
+            },
+            "partners": {
+                "title": "Fait confiance par les leaders du secteur"
+            }
+        },
+        "cta": {
+            "title": "Prêt à transformer votre expérience de gros ?",
+            "subtitle": "Rejoignez des milliers d'entreprises qui nous font confiance pour leurs besoins en gros. Commencez aujourd'hui et débloquez des avantages exclusifs.",
+            "buttons": {
+                "createAccount": "Créer un compte professionnel",
+                "browseCatalog": "Parcourir le catalogue",
+                "scheduleDemo": "Planifier une démo"
+            },
+            "contact": {
+                "title": "Besoin de plus d'informations ?",
+                "salesTeam": {
+                    "title": "Équipe commerciale",
+                    "phone": "1-800-123-4567",
+                    "email": "sales@example.com"
+                },
+                "hours": {
+                    "title": "Heures d'ouverture",
+                    "weekdays": "Lundi - Vendredi : 9h00 - 18h00 EST",
+                    "saturday": "Samedi : 10h00 - 16h00 EST"
+                },
+                "demo": {
+                    "title": "Demander une démo",
+                    "description": "Découvrez notre plateforme en action avec une démo personnalisée."
+                }
+            }
+        }
+    },
+    "Navigation": {
+        "brand": "Boutique",
+        "links": {
+            "home": "Accueil",
+            "about": "À propos",
+            "products": "Produits",
+            "checkout": "Paiement",
+            "contact": "Contact"
+        }
+    },
+    "Products": {
+        "filters": {
+            "title": "Filtres",
+            "allCategories": "Toutes les catégories",
+            "allPrices": "Tous les prix",
+            "categories": "Catégories",
+            "price": "Prix",
+            "minPrice": "Prix minimum",
+            "maxPrice": "Prix maximum",
+            "inStock": "En stock uniquement",
+            "apply": "Appliquer les filtres",
+            "clear": "Effacer les filtres",
+            "mobileButton": "Filtrer",
+            "productsFound": "Produits Trouvés"
+        },
+        "sort": {
+            "label": "Trier par",
+            "options": {
+                "newest": "Plus récent",
+                "priceAsc": "Prix : Croissant",
+                "priceDesc": "Prix : Décroissant",
+                "nameAsc": "Nom : A à Z",
+                "nameDesc": "Nom : Z à A"
+            }
+        },
+        "search": {
+            "placeholder": "Rechercher des produits..."
+        },
+        "pagination": {
+            "prev": "Précédent",
+            "next": "Suivant",
+            "of": "sur"
+        },
+        "noResults": "Aucun produit trouvé"
+    },
+    "ProductDetails": {
+        "breadcrumb": {
+            "products": "Produits"
+        },
+        "outOfStock": "Rupture de stock",
+        "inStock": "En stock",
+        "sku": "Référence",
+        "reviews": "avis",
+        "unit": "unité",
+
+
+
+
+        "accordion": {
+            "pricing": {
+                "title": "Prix par volume",
+                "quantity": "Quantité",
+                "pricePerUnit": "Prix unitaire"
+            },
+            "shipping": {
+                "title": "Livraison & Retours",
+                "freeShipping": "Livraison standard gratuite sur toutes les commandes",
+                "returnPolicy": "Politique de retour de 30 jours",
+                "delivery": "Délai de livraison estimé : 3-5 jours ouvrables"
+
+            },
+            "specifications": {
+                "title": "Spécifications",
+                "sku": "Référence",
+                "category": "Catégorie"
+            }
+        },
+        "addToCart": {
+            "title": "Panier",
+            "items": "articles",
+            "button": "Ajouter au panier",
+            "quantity": "Quantité",
+            "minOrder": "Commande minimum :",
+            "inStock": "En stock",
+            "outOfStock": "Rupture de stock",
+            "remaining": "Plus que {{count}} en stock",
+            "proceedToCheckout": "Passer au paiement",
+            "total": "Total",
+            "empty": "Votre panier est vide",
+            "continueShopping": "Continuer vos achats",
+            "perUnit": "par unité",
+            "volumeDiscount": "(Remise sur volume appliquée)"
+
+
+
+        },
+        "addToWishlist": {
+            "add": "Ajouter à la liste de souhaits",
+            "remove": "Retirer de la liste de souhaits",
+            "title": "Liste de souhaits",
+            "items": "articles",
+            "empty": "Votre liste de souhaits est vide",
+            "continueShopping": "Continuer vos achats"
+        }
+    },
+    "Checkout": {
+        "breadcrumb": {
+            "home": "Accueil",
+            "checkout": "Paiement"
+        },
+        "shipping": {
+            "title": "Informations de livraison",
+            "email": "Email",
+            "firstName": "Prénom",
+            "lastName": "Nom",
+            "address": "Adresse",
+            "addressPlaceholder": "Adresse postale",
+            "apartment": "Appartement, suite, etc.",
+            "apartmentPlaceholder": "Appartement, suite ou étage",
+            "city": "Ville",
+            "country": "Pays",
+            "selectCountry": "Sélectionner un pays",
+            "morocco": "Maroc",
+            "postalCode": "Code postal",
+            "phone": "Téléphone",
+            "phonePlaceholder": "+212 6XX-XXXXXX"
+        },
+        "order": {
+            "title": "Votre commande",
+            "size": "Taille",
+            "subtotal": "Sous-total",
+            "delivery": "Livraison",
+            "discount": "Réduction",
+            "total": "Total",
+            "checkout": "Confirmer la commande",
+            "processing": "Traitement en cours..."
+        },
+        "validation": {
+            "required": "{{field}} est requis",
+            "email": "Veuillez entrer un email valide",
+            "phone": "Veuillez entrer un numéro de téléphone marocain valide",
+            "postalCode": "Veuillez entrer un code postal valide"
+        },
+        "errors": {
+            "emptyCart": "Votre panier est vide",
+            "fillFields": "Veuillez remplir correctement tous les champs requis"
+        }
+    }
+}

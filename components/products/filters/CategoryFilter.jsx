@@ -4,8 +4,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
-
+import { useTranslations } from "next-intl";
 export function CategoryFilter({ categories }) {
+  const t = useTranslations("Products");
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -47,7 +48,7 @@ export function CategoryFilter({ categories }) {
           htmlFor="all-categories"
           className="text-sm text-muted-foreground cursor-pointer"
         >
-          All Categories
+          {t("filters.allCategories")}
         </Label>
       </div>
       {categories.map((category) => (

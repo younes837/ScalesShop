@@ -1,0 +1,248 @@
+{
+    "LandingPage": {
+        "button": "Get Started",
+        "hero": {
+            "title": "Wholesale Prices,",
+            "titleHighlight": "Simplified Ordering",
+            "description": "Access bulk pricing, streamlined ordering, and dedicated business support - all in one platform.",
+            "viewProducts": "View Products"
+        },
+        "features": {
+            "title": "Why Choose Our Platform",
+            "subtitle": "Everything you need to streamline your wholesale purchasing",
+            "items": {
+                "dynamicPricing": {
+                    "title": "Dynamic Pricing",
+                    "description": "Automatic volume discounts and custom pricing tiers for your business needs"
+                },
+                "businessAccounts": {
+                    "title": "Business Accounts",
+                    "description": "Dedicated account management and specialized support for B2B customers"
+                },
+                "bulkOrdering": {
+                    "title": "Bulk Ordering",
+                    "description": "Streamlined ordering process for large quantities with real-time inventory"
+                },
+                "secureTransactions": {
+                    "title": "Secure Transactions",
+                    "description": "Enterprise-grade security for all your business transactions"
+                }
+            }
+        },
+        "categories": {
+            "title": "Explore Categories",
+            "subtitle": "Browse our curated selection of product categories tailored for your business needs",
+            "viewAll": "View All Categories"
+        },
+        "newProducts": {
+            "title": "Latest Products",
+            "subtitle": "Check out our newest additions to the catalog",
+            "newArrival": "New Arrival",
+            "addToCart": "Add to Cart",
+            "adding": "Adding..."
+        },
+        "trust": {
+            "certifications": {
+                "iso": {
+                    "title": "ISO 9001",
+                    "description": "Quality Management System Certified"
+                },
+                "leader": {
+                    "title": "Industry Leader",
+                    "description": "Top Wholesale Platform 2024"
+                },
+                "verified": {
+                    "title": "Verified Business",
+                    "description": "Trusted by 10,000+ Companies"
+                }
+            },
+            "testimonials": {
+                "title": "What Our Customers Say",
+                "items": {
+                    "first": {
+                        "quote": "Streamlined our entire procurement process. The bulk pricing and automated ordering have saved us countless hours.",
+                        "author": "Sarah Chen",
+                        "role": "Procurement Manager",
+                        "company": "TechCorp Solutions"
+                    },
+                    "second": {
+                        "quote": "The wholesale platform that actually understands business needs. Their customer service is exceptional.",
+                        "author": "Michael Rodriguez",
+                        "role": "Operations Director",
+                        "company": "Global Industries"
+                    }
+                }
+            },
+            "partners": {
+                "title": "Trusted by Industry Leaders"
+            }
+        },
+        "cta": {
+            "title": "Ready to Transform Your Wholesale Experience?",
+            "subtitle": "Join thousands of businesses that trust us for their wholesale needs. Get started today and unlock exclusive benefits.",
+            "buttons": {
+                "createAccount": "Create Business Account",
+                "browseCatalog": "Browse Catalog",
+                "scheduleDemo": "Schedule Demo"
+            },
+            "contact": {
+                "title": "Need More Information?",
+                "salesTeam": {
+                    "title": "Sales Team",
+                    "phone": "1-800-123-4567",
+                    "email": "sales@example.com"
+                },
+                "hours": {
+                    "title": "Business Hours",
+                    "weekdays": "Monday - Friday: 9:00 AM - 6:00 PM EST",
+                    "saturday": "Saturday: 10:00 AM - 4:00 PM EST"
+                },
+                "demo": {
+                    "title": "Request Demo",
+                    "description": "See our platform in action with a personalized demo."
+                }
+            }
+        }
+    },
+    "Navigation": {
+        "brand": "Store",
+        "links": {
+            "home": "Home",
+            "about": "About",
+            "products": "Products",
+            "checkout": "Checkout",
+            "contact": "Contact"
+        }
+    },
+    "Products": {
+        "filters": {
+            "title": "Filters",
+            "allCategories": "All Categories",
+            "allPrices": "All Prices",
+            "categories": "Categories",
+            "price": "Price Range",
+            "minPrice": "Min Price",
+            "maxPrice": "Max Price",
+            "inStock": "In Stock Only",
+            "apply": "Apply Filters",
+            "clear": "Clear Filters",
+            "mobileButton": "Filter",
+            "productsFound": "Products Found"
+        },
+        "sort": {
+            "label": "Sort by",
+            "options": {
+                "newest": "Newest",
+                "priceAsc": "Price: Low to High",
+                "priceDesc": "Price: High to Low",
+                "nameAsc": "Name: A to Z",
+                "nameDesc": "Name: Z to A"
+            }
+        },
+        "search": {
+            "placeholder": "Search products..."
+        },
+        "pagination": {
+            "prev": "Previous",
+            "next": "Next",
+            "of": "of"
+        },
+        "noResults": "No products found"
+    },
+    "ProductDetails": {
+        "breadcrumb": {
+            "products": "Products"
+        },
+        "outOfStock": "Out of stock",
+        "inStock": "In stock",
+        "unit": "unit",
+        "reviews": "reviews",
+        "sku": "SKU",
+
+        "accordion": {
+            "pricing": {
+                "title": "Volume Pricing",
+                "quantity": "Quantity",
+                "pricePerUnit": "Price Per Unit"
+            },
+            "shipping": {
+                "title": "Shipping & Returns",
+                "freeShipping": "Free standard shipping on all orders",
+                "returnPolicy": "30-day return policy",
+                "delivery": "Estimated delivery: 3-5 business days"
+            },
+            "specifications": {
+                "title": "Specifications",
+                "sku": "SKU",
+                "category": "Category"
+            }
+        },
+        "addToCart": {
+            "title": "Cart",
+            "items": "items",
+            "button": "Add to Cart",
+            "quantity": "Quantity",
+            "minOrder": "Minimum order:",
+            "inStock": "In Stock",
+            "outOfStock": "Out of Stock",
+            "remaining": "Only {{count}} left",
+            "proceedToCheckout": "Proceed to Checkout",
+            "total": "Total",
+            "empty": "Your cart is empty",
+            "continueShopping": "Continue Shopping",
+            "perUnit": "per unit",
+            "volumeDiscount": "(Volume discount applied)"
+        },
+        "addToWishlist": {
+            "add": "Add to Wishlist",
+            "remove": "Remove from Wishlist",
+            "title": "Wishlist",
+            "items": "items",
+            "empty": "Your wishlist is empty",
+            "continueShopping": "Continue Shopping"
+        }
+    },
+    "Checkout": {
+        "breadcrumb": {
+            "home": "Home",
+            "checkout": "Checkout"
+        },
+        "shipping": {
+            "title": "Shipping Information",
+            "email": "Email",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "address": "Address",
+            "addressPlaceholder": "Street address",
+            "apartment": "Apartment, suite, etc.",
+            "apartmentPlaceholder": "Apartment, suite, or floor",
+            "city": "City",
+            "country": "Country",
+            "selectCountry": "Select country",
+            "morocco": "Morocco",
+            "postalCode": "Postal Code",
+            "phone": "Phone",
+            "phonePlaceholder": "+212 6XX-XXXXXX"
+        },
+        "order": {
+            "title": "Your Order",
+            "size": "Size",
+            "subtotal": "Subtotal",
+            "delivery": "Delivery",
+            "discount": "Discount",
+            "total": "Total",
+            "checkout": "Checkout",
+            "processing": "Processing..."
+        },
+        "validation": {
+            "required": "{{field}} is required",
+            "email": "Please enter a valid email",
+            "phone": "Please enter a valid Moroccan phone number",
+            "postalCode": "Please enter a valid postal code"
+        },
+        "errors": {
+            "emptyCart": "Your cart is empty",
+            "fillFields": "Please fill in all required fields correctly"
+        }
+    }
+}

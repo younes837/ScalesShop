@@ -9,8 +9,10 @@ import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export function ProductCard({ product }) {
+  const t = useTranslations("ProductDetails");
   const { addItem } = useCartStore();
   const {
     addItem: addToWishlist,
@@ -61,11 +63,11 @@ export function ProductCard({ product }) {
       <div className="absolute top-4 left-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
         {product.stockQuantity > 0 ? (
           <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">
-            In stock
+            {t("inStock")}
           </span>
         ) : (
           <span className="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">
-            Out of stock
+            {t("outOfStock")}
           </span>
         )}
       </div>
@@ -108,7 +110,7 @@ export function ProductCard({ product }) {
           {formatPrice(product.basePrice)}
         </div>
         <div className="text-xs text-muted-foreground">
-          Min order: {product.minOrderQuantity} units
+          {t("addToCart.minOrder")}: {product.minOrderQuantity} units
         </div>
         <div className="pt-2 flex gap-2">
           <Button
@@ -132,7 +134,7 @@ export function ProductCard({ product }) {
             disabled={product.stockQuantity === 0}
           >
             <ShoppingCart className="w-4 h-4 mr-1" />
-            Add to cart
+            {t("addToCart.button")}
           </Button>
         </div>
       </div>

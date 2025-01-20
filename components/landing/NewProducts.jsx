@@ -10,8 +10,11 @@ import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { useTranslations } from "next-intl";
 
 function NewProducts() {
+  const t = useTranslations("LandingPage.newProducts");
   const [products, setProducts] = useState([]);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
@@ -98,10 +101,10 @@ function NewProducts() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">
-            Latest Products
+            {t("title")}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Check out our newest additions to the catalog
+            {t("subtitle")}
           </p>
         </div>
 
@@ -151,32 +154,32 @@ function NewProducts() {
                         <h3 className="text-lg font-semibold text-gray-900 mb-1.5 group-hover:text-blue-600 transition-colors">
                           {product.name}
                         </h3>
-                        <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+                        <p className="text-sm text-gray-600 line-clamp-1 mb-3">
                           {product.description}
                         </p>
                       </Link>
 
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-xl font-bold text-blue-600">
+                          <span className="text-xl font-bold text-primary">
                             ${product.basePrice}
                           </span>
                           <span className="px-3 py-1 text-sm font-medium text-blue-600 bg-blue-50 rounded-full">
-                            New Arrival
+                            {t("newArrival")}
                           </span>
                         </div>
 
-                        <button
+                        <Button
                           className={cn(
-                            "w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center gap-2 font-medium transition-all duration-300",
+                            "w-full py-2.5 px-4 text-white rounded-xl flex items-center justify-center gap-2 font-medium transition-all duration-300",
                             isAdding && "scale-95"
                           )}
                           onClick={() => handleAddToCart(product)}
                           disabled={isAdding}
                         >
                           <ShoppingCart className="w-4 h-4" />
-                          {isAdding ? "Adding..." : "Add to Cart"}
-                        </button>
+                          {isAdding ? t("adding") : t("addToCart")}
+                        </Button>
                       </div>
                     </div>
                   </div>

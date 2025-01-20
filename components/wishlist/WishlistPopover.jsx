@@ -13,8 +13,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
-
+import { useTranslations } from "next-intl";
 export function WishlistPopover() {
+  const t = useTranslations("ProductDetails");
   const [mounted, setMounted] = useState(false);
   const wishlistStore = useWishlistStore();
   const [open, setOpen] = useState(false);
@@ -59,9 +60,11 @@ export function WishlistPopover() {
       <PopoverContent className="w-80" align="end" sideOffset={8}>
         <div className="grid gap-4">
           <div className="flex items-center justify-between">
-            <h4 className="font-medium leading-none">Wishlist</h4>
+            <h4 className="font-medium leading-none">
+              {t("addToWishlist.title")}
+            </h4>
             <span className="text-sm text-muted-foreground">
-              {itemsCount} items
+              {itemsCount} {t("addToWishlist.items")}
             </span>
           </div>
           {items.length > 0 ? (
@@ -77,10 +80,12 @@ export function WishlistPopover() {
           ) : (
             <div className="flex flex-col items-center gap-2 py-4">
               <span className="text-sm text-muted-foreground">
-                Your wishlist is empty
+                {t("addToWishlist.empty")}
               </span>
               <Button asChild variant="link" className="text-sm">
-                <Link href="/products">Continue Shopping</Link>
+                <Link href="/products">
+                  {t("addToWishlist.continueShopping")}
+                </Link>
               </Button>
             </div>
           )}

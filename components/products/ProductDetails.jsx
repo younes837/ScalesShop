@@ -18,10 +18,11 @@ import {
 import { useCartStore } from "@/lib/store/cart";
 import { useWishlistStore } from "@/lib/store/wishlist";
 import { PriceTierTable } from "./PriceTierTable";
-
+import { useTranslations } from "next-intl";
 const PRESET_QUANTITIES = [5, 10, 20, 30, 50, 100];
 
 export function ProductDetails({ product }) {
+  const t = useTranslations("ProductDetails");
   const { addItem } = useCartStore();
   const {
     addItem: addToWishlist,
@@ -109,7 +110,9 @@ export function ProductDetails({ product }) {
             ))}
             <Star className="w-3.5 h-3.5 text-muted-foreground" />
           </div>
-          <span className="text-xs text-muted-foreground">669 reviews</span>
+          <span className="text-xs text-muted-foreground">
+            669 {t("reviews")}
+          </span>
         </div>
       </div>
 
@@ -126,20 +129,22 @@ export function ProductDetails({ product }) {
       {/* Shipping Info */}
       <div className="flex items-center gap-2 text-xs">
         <Truck className="w-3.5 h-3.5" />
-        <span>Free shipping and 30 days return</span>
+        <span>{t("accordion.shipping.freeShipping")}</span>
       </div>
 
       {/* Availability */}
       <div className="py-1">
-        <div className="text-xs font-medium">Availability</div>
+        <div className="text-xs font-medium">availability</div>
         <div className="text-xs text-green-600">
-          {product.stockQuantity} units in stock
+          {product.stockQuantity} {t("unit")} {t("inStock")}
         </div>
       </div>
 
       {/* Quantity Selection */}
       <div>
-        <label className="text-xs font-medium mb-2 block">Quantity</label>
+        <label className="text-xs font-medium mb-2 block">
+          {t("addToCart.quantity")}
+        </label>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-1.5">
           {PRESET_QUANTITIES.map((preset) => (
             <button
@@ -179,13 +184,12 @@ export function ProductDetails({ product }) {
           className={cn("flex-1 transition-transform", isAdding && "scale-95")}
         >
           <ShoppingCart className="w-5 h-5 mr-2" />
-          Add to cart
+          {t("addToCart.button")}
         </Button>
       </div>
       <div className="text-xs text-muted-foreground">
-        Minimum order: {product.minOrderQuantity} units
+        {t("addToCart.minOrder")}: {product.minOrderQuantity} {t("unit")}
       </div>
-      
 
       {/* Additional Info */}
     </div>

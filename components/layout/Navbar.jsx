@@ -14,18 +14,19 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
 import LanguageSwitcher from "../LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 const navLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "/products", label: "Products" },
-  { href: "/checkout", label: "Checkout" },
-  { href: "#contact", label: "Contact" },
+  { href: "/", label: "home" },
+  { href: "#about", label: "about" },
+  { href: "/products", label: "products" },
+  { href: "/checkout", label: "checkout" },
+  { href: "#contact", label: "contact" },
 ];
 
 export function Navbar() {
+  const t = useTranslations("Navigation");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -58,7 +59,7 @@ export function Navbar() {
               scrolled ? "text-foreground" : "text-foreground/90"
             )}
           >
-            Store
+            {t("brand")}
           </span>
         </Link>
 
@@ -73,16 +74,16 @@ export function Navbar() {
                 scrolled ? "text-foreground" : "text-foreground/90"
               )}
             >
-              {link.label}
+              {t(`links.${link.label}`)}
               <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             </Link>
           ))}
         </div>
 
         <div className="flex items-center gap-6">
-          {/* <LanguageSwitcher /> */}
           <WishlistPopover />
           <CartPopover />
+          <LanguageSwitcher />
 
           {/* Mobile Menu */}
           <Sheet open={open} onOpenChange={setOpen}>
@@ -95,7 +96,7 @@ export function Navbar() {
               <SheetHeader>
                 <SheetTitle>
                   <span className="font-semibold text-lg transition-colors duration-300 hover:text-primary">
-                    Store
+                    {t("brand")}
                   </span>
                 </SheetTitle>
               </SheetHeader>
@@ -107,7 +108,7 @@ export function Navbar() {
                     // onClick={() => scrollToSection(link.href)}
                     className="text-sm font-medium transition-colors hover:text-primary text-left py-2"
                   >
-                    {link.label}
+                    {t(`links.${link.label}`)}
                   </Link>
                 ))}
               </div>

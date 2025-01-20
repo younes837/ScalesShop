@@ -8,16 +8,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import { useTranslations } from "next-intl";
 const sortOptions = [
-  { label: "Newest", value: "createdAt.desc" },
-  { label: "Price: Low to High", value: "basePrice.asc" },
-  { label: "Price: High to Low", value: "basePrice.desc" },
-  { label: "Name: A to Z", value: "name.asc" },
-  { label: "Name: Z to A", value: "name.desc" },
+  { id: "newest", label: "Newest", value: "createdAt.desc" },
+  { id: "priceAsc", label: "Price: Low to High", value: "basePrice.asc" },
+  { id: "priceDesc", label: "Price: High to Low", value: "basePrice.desc" },
+  { id: "nameAsc", label: "Name: A to Z", value: "name.asc" },
+  { id: "nameDesc", label: "Name: Z to A", value: "name.desc" },
 ];
 
 export function SortSelect() {
+  const t = useTranslations("Products");
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentSort = searchParams.get("sort") || "createdAt.desc";
@@ -36,7 +37,7 @@ export function SortSelect() {
       <SelectContent>
         {sortOptions.map((option) => (
           <SelectItem key={option.value} value={option.value}>
-            {option.label}
+            {t(`sort.options.${option.id}`)}
           </SelectItem>
         ))}
       </SelectContent>

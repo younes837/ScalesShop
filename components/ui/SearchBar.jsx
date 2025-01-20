@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-
+import { useTranslations } from "next-intl";
 export function SearchBar() {
+  const t = useTranslations("Products");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [value, setValue] = useState(searchParams.get("search") || "");
@@ -49,7 +50,7 @@ export function SearchBar() {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         className="pl-9"
-        placeholder="Search products..."
+        placeholder={t("search.placeholder")}
       />
     </div>
   );
