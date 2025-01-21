@@ -43,7 +43,9 @@ export default function LanguageSwitcher() {
           >
             <Globe className="h-4 w-4" />
 
-            <span className="text-sm">{locale === "fr" ? "FR" : "EN"}</span>
+            <span className="text-sm">
+              {locale === "en" ? "EN" : locale === "fr" ? "FR" : "AR"}
+            </span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-auto bg-white">
@@ -62,6 +64,14 @@ export default function LanguageSwitcher() {
             onClick={() => handleLocaleChange("fr")}
           >
             FR
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className={`cursor-pointer ${
+              locale === "ar" ? "bg-slate-100" : ""
+            }`}
+            onClick={() => handleLocaleChange("ar")}
+          >
+            AR
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
