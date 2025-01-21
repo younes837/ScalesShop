@@ -16,13 +16,14 @@ import {
 } from "@/components/ui/sheet";
 import LanguageSwitcher from "../LanguageSwitcher";
 import { useTranslations } from "next-intl";
+import { ProductSearch } from "../ProductSearch";
 
 const navLinks = [
   { href: "/", label: "home" },
-  { href: "#about", label: "about" },
+  { href: "/about-us", label: "about" },
   { href: "/products", label: "products" },
   { href: "/checkout", label: "checkout" },
-  { href: "#contact", label: "contact" },
+  { href: "/contact", label: "contact" },
 ];
 
 export function Navbar() {
@@ -52,16 +53,18 @@ export function Navbar() {
       )}
     >
       <nav className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
-          <span
-            className={cn(
-              "font-semibold text-lg transition-colors duration-300 hover:text-primary",
-              scrolled ? "text-foreground" : "text-foreground/90"
-            )}
-          >
-            {t("brand")}
-          </span>
-        </Link>
+        <div className="flex items-center gap-4 sm:gap-8">
+          <Link href="/" className="flex items-center gap-2">
+            <span
+              className={cn(
+                "font-semibold text-lg transition-colors duration-300 hover:text-primary",
+                scrolled ? "text-foreground" : "text-foreground/90"
+              )}
+            >
+              {t("brand")}
+            </span>
+          </Link>
+        </div>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
@@ -79,8 +82,10 @@ export function Navbar() {
             </Link>
           ))}
         </div>
-
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="hidden sm:block w-[200px] lg:w-[300px]">
+            <ProductSearch />
+          </div>
           <WishlistPopover />
           <CartPopover />
           <LanguageSwitcher />
@@ -100,13 +105,19 @@ export function Navbar() {
                   </span>
                 </SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col space-y-4 mt-8">
+
+              {/* Mobile Search */}
+              <div className="mt-6">
+                <ProductSearch />
+              </div>
+
+              <div className="flex flex-col mt-6">
                 {navLinks.map((link) => (
                   <Link
                     href={link.href}
                     key={link.href}
-                    // onClick={() => scrollToSection(link.href)}
-                    className="text-sm font-medium transition-colors hover:text-primary text-left py-2"
+                    className="text-sm font-medium transition-colors hover:text-primary text-left py-3 border-b"
+                    onClick={() => setOpen(false)}
                   >
                     {t(`links.${link.label}`)}
                   </Link>

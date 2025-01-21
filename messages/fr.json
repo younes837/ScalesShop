@@ -140,7 +140,14 @@
             }
         },
         "search": {
-            "placeholder": "Rechercher des produits..."
+            "placeholder": "Rechercher des produits...",
+            "button": "Rechercher...",
+            "shortcut": "⌘K",
+            "dialog": {
+                "noResults": "Aucun produit trouvé",
+                "loading": "Chargement...",
+                "groupTitle": "Produits"
+            }
         },
         "pagination": {
             "prev": "Précédent",
@@ -158,10 +165,6 @@
         "sku": "Référence",
         "reviews": "avis",
         "unit": "unité",
-
-
-
-
         "accordion": {
             "pricing": {
                 "title": "Prix par volume",
@@ -173,7 +176,6 @@
                 "freeShipping": "Livraison standard gratuite sur toutes les commandes",
                 "returnPolicy": "Politique de retour de 30 jours",
                 "delivery": "Délai de livraison estimé : 3-5 jours ouvrables"
-
             },
             "specifications": {
                 "title": "Spécifications",
@@ -196,9 +198,6 @@
             "continueShopping": "Continuer vos achats",
             "perUnit": "par unité",
             "volumeDiscount": "(Remise sur volume appliquée)"
-
-
-
         },
         "addToWishlist": {
             "add": "Ajouter à la liste de souhaits",

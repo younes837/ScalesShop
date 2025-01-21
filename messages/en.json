@@ -140,7 +140,14 @@
             }
         },
         "search": {
-            "placeholder": "Search products..."
+            "placeholder": "Search products...",
+            "button": "Search...",
+            "shortcut": "⌘K",
+            "dialog": {
+                "noResults": "No products found",
+                "loading": "Loading...",
+                "groupTitle": "Products"
+            }
         },
         "pagination": {
             "prev": "Previous",

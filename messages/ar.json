@@ -140,7 +140,14 @@
             }
         },
         "search": {
-            "placeholder": "البحث عن المنتجات..."
+            "placeholder": "البحث عن المنتجات...",
+            "button": "بحث...",
+            "shortcut": "⌘K",
+            "dialog": {
+                "noResults": "لم يتم العثور على منتجات",
+                "loading": "جاري التحميل...",
+                "groupTitle": "المنتجات"
+            }
         },
         "pagination": {
             "prev": "السابق",
