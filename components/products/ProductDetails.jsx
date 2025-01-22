@@ -145,22 +145,34 @@ export function ProductDetails({ product }) {
         <label className="text-xs font-medium mb-2 block">
           {t("addToCart.quantity")}
         </label>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-1.5">
-          {PRESET_QUANTITIES.map((preset) => (
-            <button
-              key={preset}
-              onClick={() => handleQuantitySelect(preset)}
-              className={cn(
-                "h-8 rounded-md border text-xs font-medium transition-colors",
-                quantity === preset
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:border-primary"
-              )}
-              disabled={preset > product.stockQuantity}
-            >
-              {preset}
-            </button>
-          ))}
+        <div className="space-y-1.5">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-1.5">
+            {PRESET_QUANTITIES.map((preset) => (
+              <button
+                key={preset}
+                onClick={() => handleQuantitySelect(preset)}
+                className={cn(
+                  "h-8 rounded-md border text-xs font-medium transition-colors",
+                  quantity === preset
+                    ? "bg-primary text-primary-foreground"
+                    : "hover:border-primary"
+                )}
+                disabled={preset > product.stockQuantity}
+              >
+                {preset}
+              </button>
+            ))}
+          </div>
+          <Input
+            type="number"
+            value={inputValue}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            min={product.minOrderQuantity}
+            max={product.stockQuantity}
+            className="h-8 text-xs"
+            placeholder={t("addToCart.customQuantity")}
+          />
         </div>
       </div>
 

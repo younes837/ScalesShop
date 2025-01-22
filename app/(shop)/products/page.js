@@ -95,7 +95,7 @@ export default async function ProductsPage({ searchParams }) {
                 />
               </div>
             </aside>
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-3 ">
               <div className="bg-white rounded-lg border p-4 mb-6">
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                   <MobileFilters>
