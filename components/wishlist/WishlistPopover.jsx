@@ -49,7 +49,7 @@ export function WishlistPopover() {
           className="relative"
           aria-label="Wishlist"
         >
-          <Heart className="h-5 w-5" />
+          <Heart className="h-5 w-5 " />
           {itemsCount > 0 && (
             <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
               {itemsCount}

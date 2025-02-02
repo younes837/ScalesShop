@@ -111,7 +111,9 @@
             "about": "عن المتجر",
             "products": "المنتجات",
             "checkout": "الدفع",
-            "contact": "اتصل بنا"
+            "contact": "اتصل بنا",
+            "Categories":"الفئات"
+
         }
     },
     "Products": {
@@ -197,7 +199,8 @@
             "empty": "سلة التسوق فارغة",
             "continueShopping": "مواصلة التسوق",
             "perUnit": "للوحدة",
-            "volumeDiscount": "(تم تطبيق خصم الكمية)"
+            "volumeDiscount": "(تم تطبيق خصم الكمية)",
+            "customQuantity": "كمية خاصة"
         },
         "addToWishlist": {
             "add": "أضف إلى قائمة الرغبات",

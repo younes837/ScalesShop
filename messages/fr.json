@@ -111,7 +111,10 @@
             "about": "À propos",
             "products": "Produits",
             "checkout": "Paiement",
-            "contact": "Contact"
+            "contact": "Contact",
+            "Categories":"Catégories"
+
+
         }
     },
     "Products": {
@@ -197,7 +200,8 @@
             "empty": "Votre panier est vide",
             "continueShopping": "Continuer vos achats",
             "perUnit": "par unité",
-            "volumeDiscount": "(Remise sur volume appliquée)"
+            "volumeDiscount": "(Remise sur volume appliquée)",
+            "customQuantity": "Quantité personnalisée"
         },
         "addToWishlist": {
             "add": "Ajouter à la liste de souhaits",

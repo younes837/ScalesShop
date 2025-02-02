@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
+import SuggestionProducts from "@/components/products/SuggestionProducts";
 export default async function ProductPage({ params }) {
   const product = await prisma.product.findUnique({
     where: { id: params.id },
@@ -97,6 +98,7 @@ export default async function ProductPage({ params }) {
                 </div>
               </div>
             </div>
+            <SuggestionProducts />
           </div>
         </div>
       </div>

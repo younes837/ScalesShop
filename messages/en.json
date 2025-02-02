@@ -111,7 +111,9 @@
             "about": "About",
             "products": "Products",
             "checkout": "Checkout",
-            "contact": "Contact"
+            "contact": "Contact",
+            "Categories":"Categories"
+
         }
     },
     "Products": {
@@ -198,7 +200,8 @@
             "empty": "Your cart is empty",
             "continueShopping": "Continue Shopping",
             "perUnit": "per unit",
-            "volumeDiscount": "(Volume discount applied)"
+            "volumeDiscount": "(Volume discount applied)",
+            "customQuantity": "Custom Quantity"
         },
         "addToWishlist": {
             "add": "Add to Wishlist",
